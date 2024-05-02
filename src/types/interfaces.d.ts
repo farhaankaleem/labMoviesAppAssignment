@@ -45,7 +45,7 @@ export interface BaseMovie {
   }
 
   export interface ListedMovie extends BaseMovie {
-    genre_ids: number[];
+    genre_ids?: number[];
   }
 
   export type FilterOption = "title" | "genre";
@@ -70,6 +70,13 @@ export interface BaseMovie {
   }
 
   interface DiscoverMovies {
+    page: number;	
+    total_pages: number;
+    total_results: number;
+    results: BaseMovie[];
+  }
+
+  interface UpcomingMovies {
     page: number;	
     total_pages: number;
     total_results: number;
