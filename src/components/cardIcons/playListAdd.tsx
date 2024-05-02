@@ -9,7 +9,8 @@ const PlaylistAdd: React.FC<ListedMovie> = (movie) => {
 
   const onUserSelect = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    //context.addToFavourites(movie);
+    context.addToMustWatch(movie);
+    console.log('Must Watch movies: ', context.mustWatch)
   };
   return (
     <IconButton aria-label="add to playlist" onClick={onUserSelect}>
