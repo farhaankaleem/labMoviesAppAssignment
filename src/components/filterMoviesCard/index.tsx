@@ -33,6 +33,22 @@ const styles = {
     {id: 3, name: "Thriller"}
   ]
 
+
+  const production_countries = [
+    {
+      iso_3166_1: "US",
+      name: "United States of America",
+    },
+    {
+      iso_3166_1: "FR",
+      name: "France",
+    },
+    {
+      iso_3166_1: "Li",
+      name: "Lithuania",
+    }
+  ]
+
   return (
     <>
     <Card sx={styles.root} variant="outlined">
@@ -58,6 +74,20 @@ const styles = {
               return (
                 <MenuItem key={genre.id} value={genre.id}>
                   {genre.name}
+                </MenuItem>
+              );
+            })}
+          </Select>
+
+          <InputLabel id="production_countries-label">Production Countries</InputLabel>
+          <Select
+            labelId="production_countries-label"
+            id="production_countries-select"
+          >
+            {production_countries.map((prod_count) => {
+              return (
+                <MenuItem key={prod_count.iso_3166_1} value={prod_count.iso_3166_1}>
+                  {prod_count.name}
                 </MenuItem>
               );
             })}
