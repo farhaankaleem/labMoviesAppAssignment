@@ -3,19 +3,6 @@ import PageTemplate from '../components/templateMovieListPage';
 import { ListedMovie } from "../types/interfaces";
 import { getMovies } from "../api/tmdb-api";
 
-
- 
-const styles = {
-  root: {
-    padding: "20px",
-  }, fab: {
-    marginTop: 8,
-    position: "fixed",
-    top: 2,
-    right: 2,
-  },
-};
-
   const HomePage: FC= () => {
     const [movies, setMovies] = useState<ListedMovie[]>([]);
     const favourites = movies.filter(m => m.favourite)
