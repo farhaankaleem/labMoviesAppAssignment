@@ -55,3 +55,9 @@ export interface BaseMovie {
     title: string;
     selectFavourite: (m: number) => void;
   }
+
+  export interface Review{
+    id: string;
+    content: string
+    author: string
+  }
