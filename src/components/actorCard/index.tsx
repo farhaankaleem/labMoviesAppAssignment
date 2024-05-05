@@ -21,13 +21,13 @@ const styles = {
 };
 
 interface ActorListProps {
-  movie:Person,
+  actor:Person,
   action: (m: Person) => React.ReactNode;
 }
 
 const ActorCard: React.FC<ActorListProps> = (props) => {
 
-  const { movie: originalMovie, action } = props;
+  const { actor: originalMovie, action } = props;
 
   const movie: Person = { ...originalMovie, favourite: false };
 
@@ -63,7 +63,7 @@ const ActorCard: React.FC<ActorListProps> = (props) => {
       />
       <CardActions disableSpacing>
         {props.action(movie)}
-        <Link to={`/movies/${movie.id}`}>
+        <Link to={`/actors/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...
           </Button>

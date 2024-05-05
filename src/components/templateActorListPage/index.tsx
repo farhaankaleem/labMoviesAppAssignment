@@ -10,16 +10,16 @@ const styles = {
   }
 };
 
-const MovieListPageTemplate: React.FC<ActorListPageTemplateProps> = (props)=> {
+const ActorListPageTemplate: React.FC<ActorListPageTemplateProps> = (props)=> {
   return (
     <Grid container sx={styles.root}>
       <Grid item xs={12}>
         <Header title={props.title} />
       </Grid>
       <Grid item container spacing={5}>
-      <MovieList action={props.action} movie={props.movies} />
+      <MovieList action={props.action} actor={props.actors} />
       </Grid>
     </Grid>
   );
 }
-export default MovieListPageTemplate;
+export default ActorListPageTemplate;

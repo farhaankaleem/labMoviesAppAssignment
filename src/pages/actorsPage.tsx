@@ -6,9 +6,10 @@ import MovieFilterUI, {
   titleFilter,
   genreFilter,
 } from "../components/movieFilterUI";
-import { PersonList } from "../types/interfaces";
+import { Person, PersonList } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
+import AddToFavouritesIcon from '../components/cardIcons/addToFavouritesActors'
 
 
 const titleFiltering = {
@@ -54,8 +55,10 @@ const ActorsPage: React.FC = () => {
     <>
       <PageTemplate
         title="Actors"
-        movies={actors}
-        action={() => {}}
+        actors={actors}
+        action={(actor: Person ) => {
+            return <AddToFavouritesIcon {...actor} />
+          }}
       />
       {/* <MovieFilterUI
         onFilterValuesChange={changeFilterValues}
