@@ -1,12 +1,12 @@
 import React from "react";
 import PageTemplate from "../components/templateMovieListPage";
-import { getUpcomingMovies } from "../api/tmdb-api";
+import { getPopularMovies } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
 import MovieFilterUI, {
   titleFilter,
   genreFilter,
 } from "../components/movieFilterUI";
-import { UpcomingMovies, ListedMovie } from "../types/interfaces";
+import { PopularMovies, ListedMovie } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import PlaylistAddIcon from '../components/cardIcons/playListAdd'
@@ -23,8 +23,8 @@ const genreFiltering = {
   condition: genreFilter,
 };
 
-const UpcomingMoviesPage: React.FC = () => {
-  const { data, error, isLoading, isError } = useQuery<UpcomingMovies, Error>("upcoming", getUpcomingMovies);
+const PopularMoviesPage: React.FC = () => {
+  const { data, error, isLoading, isError } = useQuery<PopularMovies, Error>("popular", getPopularMovies);
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [],
     [titleFiltering, genreFiltering]
@@ -54,7 +54,7 @@ const UpcomingMoviesPage: React.FC = () => {
   return (
     <>
       <PageTemplate
-        title="Upcoming Movies"
+        title="Popular Movies"
         movies={displayedMovies}
         action={(movie: ListedMovie) => {
           return <PlaylistAddIcon {...movie} />
@@ -68,4 +68,4 @@ const UpcomingMoviesPage: React.FC = () => {
     </>
   );
 };
-export default UpcomingMoviesPage;
+export default PopularMoviesPage;
