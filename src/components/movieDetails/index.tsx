@@ -5,11 +5,12 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import MonetizationIcon from "@mui/icons-material/MonetizationOn";
 import StarRate from "@mui/icons-material/StarRate";
 import Typography from "@mui/material/Typography";
-import { MovieT } from "../../types/interfaces";
+import { MovieT, CastMember } from "../../types/interfaces";
 import NavigationIcon from "@mui/icons-material/Navigation";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
 import MovieReviews from '../movieReviews'
+import { Avatar, Box, CardActionArea, CardHeader, Stack, Tooltip } from "@mui/material";
 
 const styles = {
     chipSet: {
@@ -31,8 +32,14 @@ const styles = {
     },
 };
 
-const MovieDetails: React.FC<MovieT> = (props) => {
-  const movie=props;
+interface MovieDetailsProps {
+    movie: MovieT;
+    cast: CastMember[];
+  }
+
+const MovieDetails: React.FC<MovieDetailsProps> = (props) => {
+  const movie=props.movie;
+  const cast=props.cast.cast;
   const [drawerOpen, setDrawerOpen] = useState(false); // New
 
     return (
@@ -66,6 +73,36 @@ const MovieDetails: React.FC<MovieT> = (props) => {
                     label={`${movie.vote_average} (${movie.vote_count}`}
                 />
                 <Chip label={`Released: ${movie.release_date}`} />
+            </Paper>
+            <Paper variant="outlined" sx={styles.chipSet}>
+                <Typography variant="h5" component="div">
+                    Cast
+                </Typography>
+                <Stack direction="row" spacing={1} flexWrap="wrap">
+                    {cast.map((member) => {
+                        return (<Tooltip 
+                            key={member.id}
+                            title={`${member.name} as ${member.character}`}
+                           >
+                            <Box onClick={() => window.location.href = `/actors/${member.id}`}>
+                                <CardActionArea>
+                                    <CardHeader
+                                    avatar={
+                                        member.profile_path ? (
+                                            <Avatar
+                                            alt={member.name}
+                                            src={`https://image.tmdb.org/t/p/w500/${member.profile_path}`}
+                                            />
+                                        ) : null
+                                    }
+                                    title={<Typography>{member.name}</Typography>}
+                                    />
+                                </CardActionArea>
+                            </Box>
+
+                           </Tooltip>);
+                        })}
+                </Stack>
             </Paper>
             <Fab    
         color="secondary"
