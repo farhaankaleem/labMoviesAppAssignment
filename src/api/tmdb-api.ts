@@ -10,10 +10,37 @@ export const getMovies = () => {
       throw error
     });
 };
+
+export const getTVShows = () => {
+  return fetch(
+    `https://api.themoviedb.org/3/tv/on_the_air?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`
+  ).then((response) => {
+    if (!response.ok)
+      throw new Error(`Unable to fetch movies. Response status: ${response.status}`);
+    return response.json();
+  })
+    .catch((error) => {
+      throw error
+    });
+};
   
 export const getMovie = (id: string) => {
   return fetch(
     `https://api.themoviedb.org/3/movie/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
+  ).then((response) => {
+    if (!response.ok) {
+      throw new Error(`Failed to get movie data. Response status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .catch((error) => {
+    throw error
+ });
+};
+
+export const getShow = (id: string) => {
+  return fetch(
+    `https://api.themoviedb.org/3/tv/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
   ).then((response) => {
     if (!response.ok) {
       throw new Error(`Failed to get movie data. Response status: ${response.status}`);
@@ -55,6 +82,20 @@ export const getActor = (id: string) => {
   export const getMovieImages = (id: string | number) => {
     return fetch(
       `https://api.themoviedb.org/3/movie/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    ).then((response) => {
+      if (!response.ok) {
+        throw new Error("failed to fetch images");
+      }
+      return response.json();
+    }).then((json) => json.posters)
+      .catch((error) => {
+        throw error
+      });
+  };
+
+  export const getShowImages = (id: string | number) => {
+    return fetch(
+      `https://api.themoviedb.org/3/tv/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
     ).then((response) => {
       if (!response.ok) {
         throw new Error("failed to fetch images");
