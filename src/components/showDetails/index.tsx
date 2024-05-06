@@ -1,15 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import MonetizationIcon from "@mui/icons-material/MonetizationOn";
 import StarRate from "@mui/icons-material/StarRate";
 import Typography from "@mui/material/Typography";
 import { TVShowDetails } from "../../types/interfaces";
-import NavigationIcon from "@mui/icons-material/Navigation";
-import Fab from "@mui/material/Fab";
-import Drawer from "@mui/material/Drawer";
-import MovieReviews from '../movieReviews'
 
 const styles = {
     chipSet: {
@@ -33,7 +28,6 @@ const styles = {
 
 const ShowDetails: React.FC<TVShowDetails> = (props) => {
   const show=props;
-  const [drawerOpen, setDrawerOpen] = useState(false); // New
 
     return (
         <>

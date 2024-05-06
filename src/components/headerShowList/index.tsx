@@ -28,7 +28,7 @@ const Header: React.FC<HeaderProps> = (props) => {
     const name = props.name
 
     const shows = JSON.parse(localStorage.getItem("favourites") || '[]');
-    const isFav = shows.some(show => shows.original_title === name);
+    const isFav = shows.some(() => shows.original_title === name);
     const fav = isFav ? (
     <Avatar sx={styles.avatar}>
           <FavoriteIcon />

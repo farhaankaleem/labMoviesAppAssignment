@@ -11,6 +11,7 @@ import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
 import MovieReviews from '../movieReviews'
 import { Avatar, Box, CardActionArea, CardHeader, Stack, Tooltip } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const styles = {
     chipSet: {
@@ -102,6 +103,14 @@ const MovieDetails: React.FC<MovieDetailsProps> = (props) => {
 
                            </Tooltip>);
                         })}
+                </Stack>
+            </Paper>
+            <Paper variant="outlined" sx={styles.chipSet}>
+                <Chip label="Similar Movies" sx={styles.chipLabel} color="primary" />
+                <Stack direction="row" spacing={1} flexWrap="wrap">
+                    <Link to={`/movies/similar/${movie.id}`}>
+                        Go to similar movies...
+                    </Link>
                 </Stack>
             </Paper>
             <Fab    
