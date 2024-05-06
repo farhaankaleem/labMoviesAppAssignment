@@ -35,9 +35,9 @@ const ShowCard: React.FC<ShowListProps> = (props) => {
 
   const show: TVShow = { ...originalMovie, favourite: false };
 
-  const { favourites, addToFavourites } = useContext(MoviesContext);
+  const { favouriteShows, addToFavouriteShows } = useContext(MoviesContext);
   
-  if (favourites.find((id) => id === show.id)) 
+  if (favouriteShows.find((id) => id === show.id)) 
     show.favourite = true;
  
 

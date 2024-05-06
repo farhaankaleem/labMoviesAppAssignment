@@ -31,9 +31,9 @@ const ActorCard: React.FC<ActorListProps> = (props) => {
 
   const movie: Person = { ...originalMovie, favourite: false };
 
-  const { favourites, addToFavourites } = useContext(MoviesContext);
+  const { favouriteActors, addToFavouriteActors } = useContext(MoviesContext);
   
-  if (favourites.find((id) => id === movie.id)) 
+  if (favouriteActors.find((id) => id === movie.id)) 
     movie.favourite = true;
  
 

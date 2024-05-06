@@ -1,34 +1,14 @@
 import React from "react";
 import PageTemplate from "../components/templateSeriesListPage";
 import { getTVShows } from "../api/tmdb-api";
-import useFiltering from "../hooks/useFiltering";
-import MovieFilterUI, {
-  titleFilter,
-  genreFilter,
-} from "../components/movieFilterUI";
-import { DiscoverTVShows } from "../types/interfaces";
+import { DiscoverTVShows, TVShow } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
-import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
+import AddToFavouritesIcon from '../components/cardIcons/addToFavouritesSeries'
 
-
-// const titleFiltering = {
-//   name: "title",
-//   value: "",
-//   condition: titleFilter,
-// };
-// const genreFiltering = {
-//   name: "genre",
-//   value: "0",
-//   condition: genreFilter,
-// };
 
 const SeriesPage: React.FC = () => {
-  const { data, error, isLoading, isError } = useQuery<DiscoverTVShows, Error>("discover", getTVShows);
-  // const { filterValues, setFilterValues, filterFunction } = useFiltering(
-  //   [],
-  //   [titleFiltering, genreFiltering]
-  // );
+  const { data, error, isLoading, isError } = useQuery<DiscoverTVShows, Error>("discoverTVShow", getTVShows);
 
   if (isLoading) {
     return <Spinner />;
@@ -38,31 +18,17 @@ const SeriesPage: React.FC = () => {
     return <h1>{error.message}</h1>;
   }
 
-
-  // const changeFilterValues = (type: string, value: string) => {
-  //   const changedFilter = { name: type, value: value };
-  //   const updatedFilterSet =
-  //     type === "title"
-  //       ? [changedFilter, filterValues[1]]
-  //       : [filterValues[0], changedFilter];
-  //   setFilterValues(updatedFilterSet);
-  // };
-
   const shows = data ? data.results : [];
-  //const displayedMovies = filterFunction(movies);
 
   return (
     <>
       <PageTemplate
         title="Discover TV Shows"
         shows={shows}
-        action={()=>(null)}
+        action={(movie: TVShow) => {
+          return <AddToFavouritesIcon {...movie} />
+        }}
       />
-      {/* <MovieFilterUI
-        onFilterValuesChange={changeFilterValues}
-        titleFilter={filterValues[0].value}
-        genreFilter={filterValues[1].value}
-      /> */}
     </>
   );
 };
