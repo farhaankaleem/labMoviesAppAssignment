@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import { getSimilarMovies } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
@@ -6,10 +6,11 @@ import MovieFilterUI, {
   titleFilter,
   genreFilter,
 } from "../components/movieFilterUI";
-import { PopularMovies } from "../types/interfaces";
+import { ListedMovie, PopularMovies } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import { useParams } from "react-router-dom";
+import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 
 
 const titleFiltering = {
@@ -24,8 +25,9 @@ const genreFiltering = {
 };
 
 const SimilarMoviesPage: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
-  const { data, error, isLoading, isError } = useQuery<PopularMovies, Error>("similar", () => getSimilarMovies(id));
+  const { id } = useParams<{ id: string }>();
+  const [page, setPage] = useState(1);
+  const { data, error, isLoading, isError } = useQuery<PopularMovies, Error>(["similar", page],  () => getSimilarMovies(id, page));
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [],
     [titleFiltering, genreFiltering]
@@ -39,6 +41,13 @@ const SimilarMoviesPage: React.FC = () => {
     return <h1>{error.message}</h1>;
   }
 
+  const handleNextPage = () => {
+    setPage(page + 1);
+  };
+
+  const handlePrevPage = () => {
+    setPage(Math.max(page - 1, 1));
+  };
 
   const changeFilterValues = (type: string, value: string) => {
     const changedFilter = { name: type, value: value };
@@ -57,7 +66,13 @@ const SimilarMoviesPage: React.FC = () => {
       <PageTemplate
         title="Similar Movies"
         movies={displayedMovies}
-        action={() => null}
+        action={(movie: ListedMovie) => {
+          return <AddToFavouritesIcon {...movie} />;
+        } } 
+        currentPage={data?.page || 0} 
+        totalPages={data?.total_pages || 0} 
+        onPrevPage={handlePrevPage} 
+        onNextPage={handleNextPage}
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}

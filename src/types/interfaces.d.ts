@@ -144,18 +144,30 @@ export interface TVShowDetails extends TVShow {
   export interface MovieListPageTemplateProps {
     movies: ListedMovie[];
     title: string;
+    currentPage: number;
+    totalPages: number;
+    onPrevPage: () => void;
+    onNextPage: () => void;
     action: (m: ListedMovie) => React.ReactNode
   }
 
   export interface SeriesListPageTemplateProps {
     shows: TVShow[];
     title: string;
+    currentPage: number;
+    totalPages: number;
+    onPrevPage: () => void;
+    onNextPage: () => void;
     action: (m: TVShow) => React.ReactNode
   }
 
   export interface ActorListPageTemplateProps {
     actors: Person[];
     title: string;
+    currentPage: number;
+    totalPages: number;
+    onPrevPage: () => void;
+    onNextPage: () => void;
     action: (a: Person) => React.ReactNode
   }
 

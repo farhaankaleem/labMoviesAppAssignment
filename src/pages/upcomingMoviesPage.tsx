@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import { getUpcomingMovies } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
@@ -24,11 +24,20 @@ const genreFiltering = {
 };
 
 const UpcomingMoviesPage: React.FC = () => {
-  const { data, error, isLoading, isError } = useQuery<UpcomingMovies, Error>("upcoming", getUpcomingMovies);
+  const [page, setPage] = useState(1);
+  const { data, error, isLoading, isError } = useQuery<UpcomingMovies, Error>(["upcoming", page], () => getUpcomingMovies(page));
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [],
     [titleFiltering, genreFiltering]
   );
+
+  const handleNextPage = () => {
+    setPage(page + 1);
+  };
+
+  const handlePrevPage = () => {
+    setPage(Math.max(page - 1, 1));
+  };
 
   if (isLoading) {
     return <Spinner />;
@@ -59,6 +68,10 @@ const UpcomingMoviesPage: React.FC = () => {
         action={(movie: ListedMovie) => {
           return <PlaylistAddIcon {...movie} />
         }}
+        currentPage={data?.page || 0} 
+        totalPages={data?.total_pages || 0} 
+        onPrevPage={handlePrevPage} 
+        onNextPage={handleNextPage}  
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}

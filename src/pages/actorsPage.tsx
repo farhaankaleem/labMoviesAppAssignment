@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PageTemplate from "../components/templateActorListPage";
 import { getActors } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
@@ -24,7 +24,8 @@ const genreFiltering = {
 };
 
 const ActorsPage: React.FC = () => {
-  const { data, error, isLoading, isError } = useQuery<PersonList, Error>("actors", getActors);
+  const [page, setPage] = useState(1);
+  const { data, error, isLoading, isError } = useQuery<PersonList, Error>(["actors", page], () => getActors(page));
 //   const { filterValues, setFilterValues, filterFunction } = useFiltering(
 //     [],
 //     [titleFiltering, genreFiltering]
@@ -37,6 +38,14 @@ const ActorsPage: React.FC = () => {
   if (isError) {
     return <h1>{error.message}</h1>;
   }
+
+  const handleNextPage = () => {
+    setPage(page + 1);
+  };
+
+  const handlePrevPage = () => {
+    setPage(Math.max(page - 1, 1));
+  };
 
 
 //   const changeFilterValues = (type: string, value: string) => {
@@ -59,6 +68,10 @@ const ActorsPage: React.FC = () => {
         action={(actor: Person ) => {
             return <AddToFavouritesIcon {...actor} />
           }}
+        currentPage={data?.page || 0} 
+        totalPages={data?.total_pages || 0} 
+        onPrevPage={handlePrevPage} 
+        onNextPage={handleNextPage}
       />
       {/* <MovieFilterUI
         onFilterValuesChange={changeFilterValues}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import { getPopularMovies } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
@@ -24,7 +24,8 @@ const genreFiltering = {
 };
 
 const PopularMoviesPage: React.FC = () => {
-  const { data, error, isLoading, isError } = useQuery<PopularMovies, Error>("popular", getPopularMovies);
+  const [page, setPage] = useState(1);
+  const { data, error, isLoading, isError } = useQuery<PopularMovies, Error>(["popular", page], () => getPopularMovies(page));
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [],
     [titleFiltering, genreFiltering]
@@ -38,6 +39,13 @@ const PopularMoviesPage: React.FC = () => {
     return <h1>{error.message}</h1>;
   }
 
+  const handleNextPage = () => {
+    setPage(page + 1);
+  };
+
+  const handlePrevPage = () => {
+    setPage(Math.max(page - 1, 1));
+  };
 
   const changeFilterValues = (type: string, value: string) => {
     const changedFilter = { name: type, value: value };
@@ -59,6 +67,10 @@ const PopularMoviesPage: React.FC = () => {
         action={(movie: ListedMovie) => {
           return <PlaylistAddIcon {...movie} />
         }}
+        currentPage={data?.page || 0} 
+        totalPages={data?.total_pages || 0} 
+        onPrevPage={handlePrevPage} 
+        onNextPage={handleNextPage}  
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}

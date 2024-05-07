@@ -1,6 +1,6 @@
-export const getMovies = () => {
+export const getMovies = (page: Number) => {
   return fetch(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`
+    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
   ).then((response) => {
     if (!response.ok)
       throw new Error(`Unable to fetch movies. Response status: ${response.status}`);
@@ -11,9 +11,9 @@ export const getMovies = () => {
     });
 };
 
-export const getTVShows = () => {
+export const getTVShows = (page: Number) => {
   return fetch(
-    `https://api.themoviedb.org/3/tv/on_the_air?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`
+    `https://api.themoviedb.org/3/tv/on_the_air?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
   ).then((response) => {
     if (!response.ok)
       throw new Error(`Unable to fetch movies. Response status: ${response.status}`);
@@ -160,9 +160,9 @@ export const getActor = (id: string) => {
       });
   };
 
-  export const getUpcomingMovies = () => {
+  export const getUpcomingMovies = (page: Number) => {
     return fetch(
-      `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=${page}`
     ).then((response) => {
       if (!response.ok)
         throw new Error(`Unable to fetch movies. Response status: ${response.status}`);
@@ -173,9 +173,9 @@ export const getActor = (id: string) => {
       });
   };
 
-  export const getPopularMovies = () => {
+  export const getPopularMovies = (page: Number) => {
     return fetch(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=${page}`
     ).then((response) => {
       if (!response.ok)
         throw new Error(`Unable to fetch movies. Response status: ${response.status}`);
@@ -186,9 +186,9 @@ export const getActor = (id: string) => {
       });
   };
 
-  export const getSimilarMovies = (id: string | undefined) => {
+  export const getSimilarMovies = (id: string | undefined, page: Number) => {
     return fetch(
-      `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=${page}`
     ).then((response) => {
       if (!response.ok)
         throw new Error(`Unable to fetch movies. Response status: ${response.status}`);
@@ -199,9 +199,9 @@ export const getActor = (id: string) => {
       });
   };
 
-  export const getSimilarSeries = (id: string | undefined) => {
+  export const getSimilarSeries = (id: string | undefined, page: Number) => {
     return fetch(
-      `https://api.themoviedb.org/3/tv/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/tv/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=${page}`
     ).then((response) => {
       if (!response.ok)
         throw new Error(`Unable to fetch movies. Response status: ${response.status}`);
@@ -212,9 +212,9 @@ export const getActor = (id: string) => {
       });
   };
 
-  export const getActors = () => {
+  export const getActors = (page: Number) => {
     return fetch(
-      `https://api.themoviedb.org/3/trending/person/day?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/trending/person/day?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=${page}`
     ).then((response) => {
       if (!response.ok)
         throw new Error(`Unable to fetch movies. Response status: ${response.status}`);

@@ -22,13 +22,21 @@ const styles = {
 
 interface HeaderProps {
     title: string;
+    currentPage: number;
+    totalPages: number;
+    onPrevPage: () => void;
+    onNextPage: () => void;
 }
 
-const Header: React.FC<HeaderProps> = (props) => {
-    const title = props.title
-
+const Header: React.FC<HeaderProps> = ({
+    title,
+    currentPage,
+    totalPages,
+    onPrevPage,
+    onNextPage,}) => {
+    
     const movies = JSON.parse(localStorage.getItem("favourites") || '[]');
-    const isFav = movies.some(movie => movie.original_title === title);
+    const isFav = movies.some((movie) => movie.original_title === title);
     const fav = isFav ? (
     <Avatar sx={styles.avatar}>
           <FavoriteIcon />
@@ -37,20 +45,27 @@ const Header: React.FC<HeaderProps> = (props) => {
 
     return (
         <Paper component="div" sx={styles.root}>
+            {currentPage > 1 && (
             <IconButton
-                aria-label="go back"
+                aria-label="go back" onClick={onPrevPage} disabled={currentPage === 1}
             >
                 <ArrowBackIcon color="primary" fontSize="large" />
-            </IconButton>
+            </IconButton>)}
             {fav}
             <Typography variant="h4" component="h3">
                 {title}
             </Typography>
+            {totalPages > 1 && (
+            <Typography variant="body1" component="span">
+                Page {currentPage} of {totalPages}
+            </Typography>)}
+            {currentPage < totalPages && (
             <IconButton
-                aria-label="go forward"
+                aria-label="go forward" onClick={onNextPage}
             >
                 <ArrowForwardIcon color="primary" fontSize="large" />
             </IconButton>
+            )}
         </Paper>
     );
 };
