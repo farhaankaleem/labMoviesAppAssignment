@@ -15,7 +15,7 @@ const MovieDetailsPage: React.FC= () => {
   );
 
   const { data: cast } = useQuery<CastMember[], Error>(
-    ["movie_id", id],
+    ["CastMember", id],
     ()=> getCast(id||"")
   );
 

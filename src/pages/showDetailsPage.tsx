@@ -1,9 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import ShowDetails from "../components/showDetails";
-import { TVShowDetails } from "../types/interfaces";
+import { TVShowDetails, CastMember } from "../types/interfaces";
 import PageTemplate from "../components/templateShowPage";
-import { getShow } from '../api/tmdb-api'
+import { getShow, getCastSeries } from '../api/tmdb-api'
 import { useQuery } from "react-query";
 import Spinner from '../components/spinner'
 
@@ -12,6 +12,11 @@ const ShowDetailsPage: React.FC= () => {
   const { data: show, error, isLoading, isError } = useQuery<TVShowDetails, Error>(
     ["series_id", id],
     ()=> getShow(id||"")
+  );
+
+  const { data: cast } = useQuery<CastMember[], Error>(
+    ["CastMemberSeries", id],
+    ()=> getCastSeries(id||"")
   );
 
   if (isLoading) {
@@ -27,7 +32,8 @@ const ShowDetailsPage: React.FC= () => {
       {show ? (
         <>
         <PageTemplate show={show as TVShowDetails}> 
-          <ShowDetails {...show as TVShowDetails} />
+          <ShowDetails show={show as TVShowDetails} 
+          cast = {cast as CastMember[]}/>
         </PageTemplate>
       </>
     ) : (

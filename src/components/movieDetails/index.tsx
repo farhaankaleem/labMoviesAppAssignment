@@ -40,7 +40,7 @@ interface MovieDetailsProps {
 
 const MovieDetails: React.FC<MovieDetailsProps> = (props) => {
   const movie=props.movie;
-  const cast=props.cast.cast;
+  const cast=props.cast;
   const [drawerOpen, setDrawerOpen] = useState(false); // New
 
     return (

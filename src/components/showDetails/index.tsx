@@ -4,7 +4,10 @@ import Paper from "@mui/material/Paper";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import StarRate from "@mui/icons-material/StarRate";
 import Typography from "@mui/material/Typography";
-import { TVShowDetails } from "../../types/interfaces";
+import { TVShowDetails, CastMember } from "../../types/interfaces";
+import Stack from "@mui/material/Stack";
+import { Avatar, Box, CardActionArea, CardHeader, Tooltip } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const styles = {
     chipSet: {
@@ -26,8 +29,14 @@ const styles = {
     },
 };
 
-const ShowDetails: React.FC<TVShowDetails> = (props) => {
-  const show=props;
+interface ShowDetailsProps {
+    show: TVShowDetails;
+    cast: CastMember[];
+  }
+
+const ShowDetails: React.FC<ShowDetailsProps> = (props) => {
+  const show=props.show;
+  const cast=props.cast;
 
     return (
         <>
@@ -56,6 +65,44 @@ const ShowDetails: React.FC<TVShowDetails> = (props) => {
                     label={`${show.vote_average} (${show.vote_count}`}
                 />
                 <Chip label={`Released: ${show.first_air_date}`} />
+            </Paper>
+            <Paper variant="outlined" sx={styles.chipSet}>
+                <Typography variant="h5" component="div">
+                    Cast
+                </Typography>
+                <Stack direction="row" spacing={1} flexWrap="wrap">
+                    {cast.map((member) => {
+                        return (<Tooltip 
+                            key={member.id}
+                            title={`${member.name} as ${member.character}`}
+                           >
+                            <Box onClick={() => window.location.href = `/actors/${member.id}`}>
+                                <CardActionArea>
+                                    <CardHeader
+                                    avatar={
+                                        member.profile_path ? (
+                                            <Avatar
+                                            alt={member.name}
+                                            src={`https://image.tmdb.org/t/p/w500/${member.profile_path}`}
+                                            />
+                                        ) : null
+                                    }
+                                    title={<Typography>{member.name}</Typography>}
+                                    />
+                                </CardActionArea>
+                            </Box>
+
+                           </Tooltip>);
+                        })}
+                </Stack>
+            </Paper>
+            <Paper variant="outlined" sx={styles.chipSet}>
+                <Chip label="Similar Shows" sx={styles.chipLabel} color="primary" />
+                <Stack direction="row" spacing={1} flexWrap="wrap">
+                    <Link to={`/series/similar/${show.id}`}>
+                        Go to similar shows...
+                    </Link>
+                </Stack>
             </Paper>
             {/* <Fab    
         color="secondary"
