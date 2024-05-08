@@ -220,6 +220,10 @@ export interface TVShowDetails extends TVShow {
     vote_count?: number;
   }
 
+  export interface ThemeHeaderProps {
+    isDarkMode: boolean;
+  }
+
   interface DiscoverTVShows {
     page: number;	
     total_pages: number;

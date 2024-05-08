@@ -10,9 +10,12 @@ import RemoveFromFavourites from "../components/cardIcons/removeFromFavourites";
 import RemoveFromFavouriteActors from "../components/cardIcons/removeFromFavouriteActors";
 import RemoveFromFavouriteShows from "../components/cardIcons/removeFromFavouriteSeries";
 import WriteReview from "../components/cardIcons/writeReview";
+import { ThemeProvider } from "@mui/material/styles";
+import { darkTheme, lightTheme } from "../util";
+import { ThemeHeaderProps } from "../types/interfaces";
 
 
-const FavouriteMoviesPage: React.FC = () => {
+const FavouriteMoviesPage: React.FC<ThemeHeaderProps> = ({isDarkMode}) => {
   const { favourites: movieIds } = useContext(MoviesContext);
   const { favouriteActors: actorIds } = useContext(MoviesContext);
   const { favouriteShows: showIds } = useContext(MoviesContext);
@@ -63,6 +66,7 @@ const FavouriteMoviesPage: React.FC = () => {
 
   return (
     <>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <PageTemplate
         title="Favourite Movies"
         movies={allFavourites}
@@ -108,6 +112,7 @@ const FavouriteMoviesPage: React.FC = () => {
         } } onNextPage={function (): void {
           throw new Error("Function not implemented.");
         } }      />
+        </ThemeProvider>
     </>
   );
 };

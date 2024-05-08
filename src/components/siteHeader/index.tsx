@@ -12,6 +12,10 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import { ThemeProvider } from "@mui/material/styles";
+import { darkTheme, lightTheme } from "../../util";
 
 const styles = {
   title: {
@@ -56,10 +60,13 @@ const styles = {
     width: '100%',
   },
 };
-
+interface SiteHeaderProps {
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
+}
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
-const SiteHeader: React.FC = () => {
+const SiteHeader: React.FC<SiteHeaderProps> = ({isDarkMode, toggleDarkMode}) => {
   const navigate = useNavigate();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -80,7 +87,7 @@ const SiteHeader: React.FC = () => {
 
   const handleSearch = () => {
     console.log("Search value:", searchValue);
-    navigate(`/seacrh/${searchValue}`)
+    navigate(`/search/${searchValue}`)
   };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -101,6 +108,7 @@ const SiteHeader: React.FC = () => {
 
   return (
     <>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <AppBar sx={styles.appbar} position="fixed" elevation={0} color="primary">
         <Toolbar>
           <IconButton
@@ -117,14 +125,22 @@ const SiteHeader: React.FC = () => {
           <Typography variant="h6" sx={styles.title}>
             All you ever wanted to know about Movies!
           </Typography>
-              <SearchIcon sx={styles.Space} onClick={handleSearch} />
-            <InputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              onKeyPress={handleKeyPress}
-            />
+          <SearchIcon sx={styles.Space} onClick={handleSearch} />
+          <InputBase
+            placeholder="Search…"
+            inputProps={{ 'aria-label': 'search' }}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            onKeyPress={handleKeyPress}
+          />
+          <IconButton
+            aria-label="toggle dark mode"
+            onClick={toggleDarkMode}
+            color="inherit"
+            size="large"
+          >
+            {isDarkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -145,6 +161,7 @@ const SiteHeader: React.FC = () => {
         </List>
       </Drawer>
       <Offset />
+      </ThemeProvider>
     </>
   );
 };

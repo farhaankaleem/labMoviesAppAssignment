@@ -1,3 +1,4 @@
+import { createTheme } from "@mui/material";
 import truncate from "lodash/truncate";
 
 export function excerpt(string: string) {
@@ -6,3 +7,17 @@ export function excerpt(string: string) {
     separator: /,?\.* +/, // separate by spaces, including preceding commas and periods
   });
 }
+
+export const lightTheme = createTheme({
+  palette: {
+    mode: "light",
+    // Define your light mode palette colors here
+  },
+});
+
+export const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+    // Define your dark mode palette colors here
+  },
+});

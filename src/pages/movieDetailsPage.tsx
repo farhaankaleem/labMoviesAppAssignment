@@ -1,13 +1,15 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import MovieDetails from "../components/movieDetails";
-import { MovieT, CastMember } from "../types/interfaces";
+import { MovieT, CastMember, ThemeHeaderProps } from "../types/interfaces";
 import PageTemplate from "../components/templateMoviePage";
 import { getMovie, getCast } from '../api/tmdb-api'
 import { useQuery } from "react-query";
 import Spinner from '../components/spinner'
+import { ThemeProvider } from "@emotion/react";
+import { darkTheme, lightTheme } from "../util";
 
-const MovieDetailsPage: React.FC= () => {
+const MovieDetailsPage: React.FC<ThemeHeaderProps>= ({isDarkMode}) => {
   const { id } = useParams();
   const { data: movie, error, isLoading, isError } = useQuery<MovieT, Error>(
     ["movie", id],
@@ -29,6 +31,7 @@ const MovieDetailsPage: React.FC= () => {
 
   return (
     <>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       {movie ? (
         <>
         <PageTemplate movie={movie as MovieT}> 
@@ -39,6 +42,7 @@ const MovieDetailsPage: React.FC= () => {
     ) : (
       <p>Waiting for movie details</p>
     )}
+    </ThemeProvider>
     </>
   );
 };

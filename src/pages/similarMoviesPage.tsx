@@ -6,12 +6,14 @@ import MovieFilterUI, {
   titleFilter,
   genreFilter,
 } from "../components/movieFilterUI";
-import { ListedMovie, PopularMovies } from "../types/interfaces";
+import { ListedMovie, PopularMovies, ThemeHeaderProps } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import { useParams } from "react-router-dom";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 import useSorting from "../hooks/useSorting";
+import { ThemeProvider } from "@emotion/react";
+import { darkTheme, lightTheme } from "../util";
 
 
 const titleFiltering = {
@@ -25,7 +27,7 @@ const genreFiltering = {
   condition: genreFilter,
 };
 
-const SimilarMoviesPage: React.FC = () => {
+const SimilarMoviesPage: React.FC<ThemeHeaderProps> = ({isDarkMode}) => {
   const { id } = useParams<{ id: string }>();
   const [page, setPage] = useState(1);
   const { data, error, isLoading, isError } = useQuery<PopularMovies, Error>(["similar", page],  () => getSimilarMovies(id, page));
@@ -106,6 +108,7 @@ const SimilarMoviesPage: React.FC = () => {
 
   return (
     <>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <PageTemplate
         title="Similar Movies"
         movies={sortedMovies}
@@ -124,6 +127,7 @@ const SimilarMoviesPage: React.FC = () => {
         onSortChange={handleSortChange}
         sortOption={sortOption}
       />
+      </ThemeProvider>
     </>
   );
 };

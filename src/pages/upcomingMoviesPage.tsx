@@ -11,6 +11,9 @@ import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import PlaylistAddIcon from '../components/cardIcons/playListAdd'
 import useSorting from "../hooks/useSorting";
+import { ThemeProvider } from "@mui/material/styles";
+import { darkTheme, lightTheme } from "../util";
+import { ThemeHeaderProps } from "../types/interfaces";
 
 
 const titleFiltering = {
@@ -24,7 +27,7 @@ const genreFiltering = {
   condition: genreFilter,
 };
 
-const UpcomingMoviesPage: React.FC = () => {
+const UpcomingMoviesPage: React.FC<ThemeHeaderProps> = ({isDarkMode}) => {
   const [page, setPage] = useState(1);
   const { data, error, isLoading, isError } = useQuery<UpcomingMovies, Error>(["upcoming", page], () => getUpcomingMovies(page));
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
@@ -105,6 +108,7 @@ const UpcomingMoviesPage: React.FC = () => {
 
   return (
     <>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <PageTemplate
         title="Upcoming Movies"
         movies={sortedMovies}
@@ -123,6 +127,7 @@ const UpcomingMoviesPage: React.FC = () => {
         onSortChange={handleSortChange}
         sortOption={sortOption}
       />
+      </ThemeProvider>
     </>
   );
 };

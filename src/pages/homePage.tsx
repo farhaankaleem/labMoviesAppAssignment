@@ -6,11 +6,13 @@ import MovieFilterUI, {
   titleFilter,
   genreFilter,
 } from "../components/movieFilterUI";
-import { DiscoverMovies, ListedMovie } from "../types/interfaces";
+import { DiscoverMovies, ListedMovie, ThemeHeaderProps } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
 import useSorting from "../hooks/useSorting";
+import { ThemeProvider } from "@mui/material/styles";
+import { darkTheme, lightTheme } from "../util";
 
 const titleFiltering = {
   name: "title",
@@ -23,7 +25,7 @@ const genreFiltering = {
   condition: genreFilter,
 };
 
-const HomePage: React.FC = () => {
+const HomePage: React.FC<ThemeHeaderProps> = ({isDarkMode}) => {
   const [page, setPage] = useState(1);
   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(["discover", page], () => getMovies(page));
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
@@ -103,6 +105,7 @@ const HomePage: React.FC = () => {
 
   return (
     <>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <PageTemplate
         title="Discover Movies"
         movies={sortedMovies}
@@ -121,6 +124,7 @@ const HomePage: React.FC = () => {
         onSortChange={handleSortChange}
         sortOption={sortOption}
       />
+    </ThemeProvider>
     </>
   );
 };

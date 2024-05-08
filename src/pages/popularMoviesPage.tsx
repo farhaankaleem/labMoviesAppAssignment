@@ -11,6 +11,9 @@ import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import PlaylistAddIcon from '../components/cardIcons/playListAdd'
 import useSorting from "../hooks/useSorting";
+import { ThemeProvider } from "@mui/material/styles";
+import { darkTheme, lightTheme } from "../util";
+import { ThemeHeaderProps } from "../types/interfaces";
 
 const titleFiltering = {
   name: "title",
@@ -23,7 +26,7 @@ const genreFiltering = {
   condition: genreFilter,
 };
 
-const PopularMoviesPage: React.FC = () => {
+const PopularMoviesPage: React.FC<ThemeHeaderProps> = ({isDarkMode}) => {
   const [page, setPage] = useState(1);
   const { data, error, isLoading, isError } = useQuery<PopularMovies, Error>(["popular", page], () => getPopularMovies(page));
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
@@ -103,6 +106,7 @@ const PopularMoviesPage: React.FC = () => {
 
   return (
     <>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <PageTemplate
         title="Popular Movies"
         movies={sortedMovies}
@@ -121,6 +125,7 @@ const PopularMoviesPage: React.FC = () => {
         onSortChange={handleSortChange}
         sortOption={sortOption}
       />
+      </ThemeProvider>
     </>
   );
 };

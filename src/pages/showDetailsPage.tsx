@@ -1,13 +1,15 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import ShowDetails from "../components/showDetails";
-import { TVShowDetails, CastMember } from "../types/interfaces";
+import { TVShowDetails, CastMember, ThemeHeaderProps } from "../types/interfaces";
 import PageTemplate from "../components/templateShowPage";
 import { getShow, getCastSeries } from '../api/tmdb-api'
 import { useQuery } from "react-query";
 import Spinner from '../components/spinner'
+import { ThemeProvider } from "@emotion/react";
+import { darkTheme, lightTheme } from "../util";
 
-const ShowDetailsPage: React.FC= () => {
+const ShowDetailsPage: React.FC<ThemeHeaderProps>= ({isDarkMode}) => {
   const { id } = useParams();
   const { data: show, error, isLoading, isError } = useQuery<TVShowDetails, Error>(
     ["series_id", id],
@@ -29,6 +31,7 @@ const ShowDetailsPage: React.FC= () => {
 
   return (
     <>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       {show ? (
         <>
         <PageTemplate show={show as TVShowDetails}> 
@@ -39,6 +42,7 @@ const ShowDetailsPage: React.FC= () => {
     ) : (
       <p>Waiting for movie details</p>
     )}
+    </ThemeProvider>
     </>
   );
 };

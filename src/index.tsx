@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
 import HomePage from "./pages/homePage";
@@ -32,33 +32,41 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+  
   return (
+    <div className={isDarkMode ? 'dark' : 'light'}>
     <QueryClientProvider client={queryClient}>
     <BrowserRouter>
-      <SiteHeader /> 
+      <SiteHeader isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} /> 
       <MoviesContextProvider>
       <Routes>
-        <Route path="/reviews/form" element={<AddMovieReviewPage/>} />
-        <Route path="/seacrh/:searchValue" element={<SearchPage/>} />
-        <Route path="/reviews/:id" element={<MovieReviewPage/>} />
-        <Route path="/reviews/series/:id" element={<ShowReviewPage/>} />
-        <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
-        <Route path="/movies/upcoming" element={<UpcomingMoviesPage/> } />
-        <Route path="/movies/popular" element={<PopularMoviesPage/>}/>
-        <Route path="/actors" element={<ActorsPage/>}/>
-        <Route path="/actors/:id" element={<ActorPage />} />
-        <Route path="/movies/:id" element={<MoviePage />} />
-        <Route path="/shows/:id" element={<ShowPage/>} />
-        <Route path="/movies/similar/:id" element= {<SimilarMoviesPage/>} />
-        <Route path="/series/similar/:id" element={<SimilarSeriesPage/>} />
-        <Route path="/series" element = {<SeriesPage/>} />
-        <Route path="/" element={<HomePage />} />
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/reviews/form" element={<AddMovieReviewPage isDarkMode={isDarkMode}/>} />
+        <Route path="/seacrh/:searchValue" element={<SearchPage isDarkMode={isDarkMode}/>} />
+        <Route path="/reviews/:id" element={<MovieReviewPage isDarkMode={isDarkMode}/>} />
+        <Route path="/reviews/series/:id" element={<ShowReviewPage isDarkMode={isDarkMode}/>} />
+        <Route path="/movies/favourites" element={<FavouriteMoviesPage isDarkMode={isDarkMode}/>} />
+        <Route path="/movies/upcoming" element={<UpcomingMoviesPage isDarkMode={isDarkMode}/> } />
+        <Route path="/movies/popular" element={<PopularMoviesPage isDarkMode={isDarkMode}/>}/>
+        <Route path="/actors" element={<ActorsPage isDarkMode={isDarkMode}/>}/>
+        <Route path="/actors/:id" element={<ActorPage isDarkMode={isDarkMode}/>} />
+        <Route path="/movies/:id" element={<MoviePage isDarkMode={isDarkMode}/>} />
+        <Route path="/shows/:id" element={<ShowPage isDarkMode={isDarkMode}/>} />
+        <Route path="/movies/similar/:id" element= {<SimilarMoviesPage isDarkMode={isDarkMode}/>} />
+        <Route path="/series/similar/:id" element={<SimilarSeriesPage isDarkMode={isDarkMode}/>} />
+        <Route path="/series" element = {<SeriesPage isDarkMode={isDarkMode}/>} />
+        <Route path="/" element={<HomePage isDarkMode={isDarkMode}/>} />
+        <Route path="*" element={<Navigate to="/"/>} />
       </Routes>
       </MoviesContextProvider>
     </BrowserRouter>
     <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
+    </div>
   );
 };
 

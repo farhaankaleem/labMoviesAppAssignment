@@ -6,11 +6,13 @@ import ActorFilterUI, {
   nameFilter,
   genderFilter,
 } from "../components/actorFilterUI";
-import { Person, PersonList } from "../types/interfaces";
+import { Person, PersonList, ThemeHeaderProps } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToFavouritesIcon from '../components/cardIcons/addToFavouritesActors'
 import useSorting from "../hooks/useSorting";
+import { ThemeProvider } from "@emotion/react";
+import { darkTheme, lightTheme } from "../util";
 
 
 const nameFiltering = {
@@ -24,7 +26,7 @@ const genderFiltering = {
   condition: genderFilter,
 };
 
-const ActorsPage: React.FC = () => {
+const ActorsPage: React.FC<ThemeHeaderProps> = ({isDarkMode}) => {
   const [page, setPage] = useState(1);
   const { data, error, isLoading, isError } = useQuery<PersonList, Error>(["actors", page], () => getActors(page));
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
@@ -85,6 +87,7 @@ const ActorsPage: React.FC = () => {
 
   return (
     <>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <PageTemplate
         title="Actors"
         actors={sortedMovies}
@@ -103,6 +106,7 @@ const ActorsPage: React.FC = () => {
         onSortChange={handleSortChange}
         sortOption={sortOption}
       />
+      </ThemeProvider>
     </>
   );
 };

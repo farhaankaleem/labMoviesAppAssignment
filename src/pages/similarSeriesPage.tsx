@@ -6,12 +6,14 @@ import ShowFilterUI, {
   nameFilter,
   genreFilter,
 } from "../components/showFilterUI";
-import { DiscoverTVShows, TVShow } from "../types/interfaces";
+import { DiscoverTVShows, TVShow, ThemeHeaderProps } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import { useParams } from "react-router-dom";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavouritesSeries";
 import useSorting from "../hooks/useSorting";
+import { ThemeProvider } from "@emotion/react";
+import { darkTheme, lightTheme } from "../util";
 
 
 const nameFiltering = {
@@ -25,7 +27,7 @@ const genreFiltering = {
   condition: genreFilter,
 };
 
-const SimilarSeriesPage: React.FC = () => {
+const SimilarSeriesPage: React.FC<ThemeHeaderProps> = ({isDarkMode}) => {
   const { id } = useParams<{ id: string }>();
   const [page, setPage] = useState(1);
   const { data, error, isLoading, isError } = useQuery<DiscoverTVShows, Error>(["similar Series", page], () => getSimilarSeries(id, page));
@@ -107,6 +109,7 @@ const SimilarSeriesPage: React.FC = () => {
 
   return (
     <>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <PageTemplate
         title="Similar Series"
         shows={sortedShows}
@@ -126,6 +129,7 @@ const SimilarSeriesPage: React.FC = () => {
         onSortChange={handleSortChange}
         sortOption={sortOption}
       />
+      </ThemeProvider>
     </>
   );
 };

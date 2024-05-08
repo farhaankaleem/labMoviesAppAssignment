@@ -1,6 +1,6 @@
 import React from "react";
 import { getSeacrh } from "../api/tmdb-api";
-import { ListedMovie, Person, SearchResp, TVShow } from "../types/interfaces";
+import { ListedMovie, Person, SearchResp, TVShow, ThemeHeaderProps } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
@@ -11,10 +11,12 @@ import AddToFavouritesIconSeries from "../components/cardIcons/addToFavouritesSe
 import ActorCard from "../components/actorCard";
 import AddToFavouritesIconActors from "../components/cardIcons/addToFavouritesActors";
 import { Grid } from "@mui/material";
+import {  ThemeProvider } from "@mui/material/styles";
+import { darkTheme, lightTheme } from "../util";
 
 
 
-const HomePage: React.FC = () => {
+const HomePage: React.FC<ThemeHeaderProps> = ({isDarkMode}) => {
   const {searchValue} = useParams();
   const { data, error, isLoading, isError } = useQuery<SearchResp, Error>(["multiSearch", searchValue], () => getSeacrh(`${searchValue}`));
  
@@ -74,6 +76,7 @@ const HomePage: React.FC = () => {
   
   return (
     <>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
     {data && data.results && data.results.length > 0 ? (
         <Grid item container spacing={1}>
             {data.results.map((result) => (
@@ -85,6 +88,7 @@ const HomePage: React.FC = () => {
     ) : (
         <p> No results</p>
     )}
+    </ThemeProvider>
     </>
   );
 };

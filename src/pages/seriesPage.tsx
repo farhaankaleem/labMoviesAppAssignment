@@ -6,11 +6,13 @@ import ShowFilterUI, {
   nameFilter,
   genreFilter,
 } from "../components/showFilterUI";
-import { DiscoverTVShows, TVShow } from "../types/interfaces";
+import { DiscoverTVShows, TVShow, ThemeHeaderProps } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToFavouritesIcon from '../components/cardIcons/addToFavouritesSeries'
 import useSorting from "../hooks/useSorting";
+import { ThemeProvider } from "@emotion/react";
+import { darkTheme, lightTheme } from "../util";
 
 const nameFiltering = {
   name: "name",
@@ -23,7 +25,7 @@ const genreFiltering = {
   condition: genreFilter,
 };
 
-const SeriesPage: React.FC = () => {
+const SeriesPage: React.FC<ThemeHeaderProps> = ({isDarkMode}) => {
   const [page, setPage] = useState(1);
   const { data, error, isLoading, isError } = useQuery<DiscoverTVShows, Error>(["discoverTVShow", page], () => getTVShows(page));
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
@@ -103,6 +105,7 @@ const SeriesPage: React.FC = () => {
 
   return (
     <>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <PageTemplate
         title="Discover TV Shows"
         shows={sortedShows}
@@ -122,6 +125,7 @@ const SeriesPage: React.FC = () => {
         onSortChange={handleSortChange}
         sortOption={sortOption}
       />
+      </ThemeProvider>
     </>
   );
 };
