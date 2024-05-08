@@ -173,6 +173,16 @@ export const getActor = (id: string) => {
       });
   };
 
+  export const getShowReviews = (id: string | number) => {
+    return fetch(
+      `https://api.themoviedb.org/3/tv/${id}/reviews?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    )
+      .then((res) => res.json())
+      .then((json) => {
+        return json.results;
+      });
+  };
+
   export const getUpcomingMovies = (page: Number) => {
     return fetch(
       `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=${page}`
