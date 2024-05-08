@@ -199,6 +199,27 @@ export interface TVShowDetails extends TVShow {
     results: BaseMovie[];
   }
 
+  interface SearchResp {
+    length: number;
+    map(arg0: (result: any) => import("react/jsx-runtime").JSX.Element): import("react").ReactNode;
+    results: SearchResp | undefined;
+    adult?: boolean;
+    backdrop_path?: string;
+    id: number;
+    title?: string;
+    original_language?: string;
+    original_title?: string;
+    overview?: string;
+    poster_path?: string;
+    media_type: string;
+    genre_ids?: number[];
+    popularity?: number;
+    release_date?: string;
+    video?: boolean;
+    vote_average?: number;
+    vote_count?: number;
+  }
+
   interface DiscoverTVShows {
     page: number;	
     total_pages: number;

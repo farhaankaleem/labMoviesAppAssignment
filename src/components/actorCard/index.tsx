@@ -1,16 +1,17 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import Avatar from "@mui/material/Avatar";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardMedia from "@mui/material/CardMedia";
 import CardHeader from "@mui/material/CardHeader";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Person } from "../../types/interfaces"; 
+import { Person } from "../../types/interfaces";
 import { Link } from "react-router-dom";
 import { MoviesContext } from "../../contexts/moviesContext";
 import img from '../../images/film-poster-placeholder.png';
+import IconButton from "@mui/material/IconButton";
+import InfoIcon from "@mui/icons-material/Info";
 
 const styles = {
   card: { maxWidth: 345 },
@@ -21,7 +22,7 @@ const styles = {
 };
 
 interface ActorListProps {
-  actor:Person,
+  actor: Person,
   action: (m: Person) => React.ReactNode;
 }
 
@@ -32,10 +33,10 @@ const ActorCard: React.FC<ActorListProps> = (props) => {
   const movie: Person = { ...originalMovie, favourite: false };
 
   const { favouriteActors, addToFavouriteActors } = useContext(MoviesContext);
-  
-  if (favouriteActors.find((id) => id === movie.id)) 
+
+  if (favouriteActors.find((id) => id === movie.id))
     movie.favourite = true;
- 
+
 
   return (
     <Card sx={styles.card}>
@@ -64,9 +65,9 @@ const ActorCard: React.FC<ActorListProps> = (props) => {
       <CardActions disableSpacing>
         {props.action(movie)}
         <Link to={`/actors/${movie.id}`}>
-          <Button variant="outlined" size="medium" color="primary">
-            More Info ...
-          </Button>
+          <IconButton color="primary" aria-label="info">
+            <InfoIcon fontSize="large"/>
+          </IconButton>
         </Link>
       </CardActions>
     </Card>

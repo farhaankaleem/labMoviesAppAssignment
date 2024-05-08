@@ -5,7 +5,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CardHeader from "@mui/material/CardHeader";
-import Button from "@mui/material/Button";
+import InfoIcon from "@mui/icons-material/Info";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
@@ -15,6 +15,7 @@ import img from '../../images/film-poster-placeholder.png';
 import { TVShow } from "../../types/interfaces"; 
 import { Link } from "react-router-dom";
 import { MoviesContext } from "../../contexts/moviesContext";
+import IconButton from "@mui/material/IconButton";
 
 const styles = {
   card: { maxWidth: 345 },
@@ -84,9 +85,9 @@ const ShowCard: React.FC<ShowListProps> = (props) => {
       <CardActions disableSpacing>
         {props.action(show)}
         <Link to={`/shows/${show.id}`}>
-          <Button variant="outlined" size="medium" color="primary">
-            More Info ...
-          </Button>
+         <IconButton color="primary" aria-label="info">
+            <InfoIcon fontSize="large"/>
+          </IconButton>
         </Link>
       </CardActions>
     </Card>

@@ -8,8 +8,8 @@ import { TVShowDetails, CastMember } from "../../types/interfaces";
 import Stack from "@mui/material/Stack";
 import { Avatar, Box, CardActionArea, CardHeader, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
-import NavigationIcon from "@mui/icons-material/Navigation";
 import Fab from "@mui/material/Fab";
+import ReviewsIcon from '@mui/icons-material/RateReview';
 import Drawer from "@mui/material/Drawer";
 import ShowReviews from '../showReviews'
 
@@ -26,11 +26,12 @@ const styles = {
     chipLabel: {
         margin: 0.5,
     },
-    fab: { 
-      position: "fixed",
-      top: 50,
-      right: 2,
-    },
+    fab: {
+        marginBottom: 8,
+        position: "fixed",
+        bottom: 20,
+        right: 20,
+      }
 };
 
 interface ShowDetailsProps {
@@ -110,13 +111,12 @@ const ShowDetails: React.FC<ShowDetailsProps> = (props) => {
                 </Stack>
             </Paper>
             <Fab    
-            color="secondary"
+            color="primary"
             variant="extended"
             onClick={() =>setDrawerOpen(true)}
             sx={styles.fab}
         >
-            <NavigationIcon />
-            Reviews
+            <ReviewsIcon />
         </Fab>
         <Drawer anchor="top" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
             <ShowReviews {...show} />

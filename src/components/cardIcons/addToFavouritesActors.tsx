@@ -4,7 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import {Person} from "../../types/interfaces"
 
-const AddToFavouritesIcon: React.FC<Person> = (actor) => {
+const AddToFavouritesIconActors: React.FC<Person> = (actor) => {
   const context = useContext(MoviesContext);
 
   const onUserSelect = (e: MouseEvent<HTMLButtonElement>) => {
@@ -18,4 +18,4 @@ const AddToFavouritesIcon: React.FC<Person> = (actor) => {
   );
 };
 
-export default AddToFavouritesIcon;
+export default AddToFavouritesIconActors;

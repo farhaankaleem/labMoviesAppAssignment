@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import FilterCard from "../filterMoviesCard";
 import Fab from "@mui/material/Fab";
+import FilterIcon from '@mui/icons-material/Filter';
 import Drawer from "@mui/material/Drawer";
 import { ListedMovie, SortOption } from "../../types/interfaces";
 
@@ -18,11 +19,11 @@ const styles = {
     backgroundColor: "#bfbfbf",
   },
   fab: {
-    marginTop: 8,
+    marginBottom: 8,
     position: "fixed",
-    top: 20,
-    right: 2,
-  },
+    bottom: 20,
+    right: 20,
+  }
 };
 
 interface MovieFilterUIProps {
@@ -40,12 +41,12 @@ const MovieFilterUI: React.FC<MovieFilterUIProps> = ({ onFilterValuesChange, onS
   return (
     <>
       <Fab
-        color="secondary"
+        color="primary"
         variant="extended"
         onClick={() => setDrawerOpen(true)}
         sx={styles.fab}
       >
-        Filter
+        <FilterIcon />
       </Fab>
       <Drawer
         anchor="left"

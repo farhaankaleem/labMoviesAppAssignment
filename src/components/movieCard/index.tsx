@@ -5,7 +5,6 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CardHeader from "@mui/material/CardHeader";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
@@ -15,6 +14,8 @@ import img from '../../images/film-poster-placeholder.png';
 import { ListedMovie } from "../../types/interfaces"; 
 import { Link } from "react-router-dom";
 import { MoviesContext } from "../../contexts/moviesContext";
+import IconButton from "@mui/material/IconButton";
+import InfoIcon from "@mui/icons-material/Info";
 
 const styles = {
   card: { maxWidth: 345 },
@@ -84,9 +85,9 @@ const MovieCard: React.FC<MovieListProps> = (props) => {
       <CardActions disableSpacing>
         {props.action(movie)}
         <Link to={`/movies/${movie.id}`}>
-          <Button variant="outlined" size="medium" color="primary">
-            More Info ...
-          </Button>
+        <IconButton color="primary" aria-label="info">
+            <InfoIcon fontSize="large"/>
+          </IconButton>
         </Link>
       </CardActions>
     </Card>

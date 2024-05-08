@@ -11,6 +11,19 @@ export const getMovies = (page: Number) => {
     });
 };
 
+export const getSeacrh = (query: String) => {
+  return fetch(
+    `https://api.themoviedb.org/3/search/multi?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&query=${query}`
+  ).then((response) => {
+    if (!response.ok)
+      throw new Error(`Unable to fetch movies. Response status: ${response.status}`);
+    return response.json();
+  })
+    .catch((error) => {
+      throw error
+    });
+};
+
 export const getTVShows = (page: Number) => {
   return fetch(
     `https://api.themoviedb.org/3/tv/on_the_air?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`

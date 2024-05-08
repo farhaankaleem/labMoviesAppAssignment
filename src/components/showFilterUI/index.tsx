@@ -3,6 +3,7 @@ import FilterCard from "../filterShowsCard";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
 import { TVShow, SortOption } from "../../types/interfaces";
+import FilterIcon from '@mui/icons-material/Filter';
 
 export const nameFilter = function (show: TVShow, value: string) {
   return show.name.toLowerCase().search(value.toLowerCase()) !== -1;
@@ -18,10 +19,10 @@ const styles = {
     backgroundColor: "#bfbfbf",
   },
   fab: {
-    marginTop: 8,
+    marginBottom: 8,
     position: "fixed",
-    top: 20,
-    right: 2,
+    bottom: 20,
+    right: 20,
   },
 };
 
@@ -40,12 +41,12 @@ const ShowFilterUI: React.FC<ShowFilterUIProps> = ({ onFilterValuesChange, onSor
   return (
     <>
       <Fab
-        color="secondary"
+        color="primary"
         variant="extended"
         onClick={() => setDrawerOpen(true)}
         sx={styles.fab}
       >
-        Filter
+        <FilterIcon />
       </Fab>
       <Drawer
         anchor="left"
