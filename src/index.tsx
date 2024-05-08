@@ -46,7 +46,7 @@ const App = () => {
       <MoviesContextProvider>
       <Routes>
         <Route path="/reviews/form" element={<AddMovieReviewPage isDarkMode={isDarkMode}/>} />
-        <Route path="/seacrh/:searchValue" element={<SearchPage isDarkMode={isDarkMode}/>} />
+        <Route path="/search/:searchValue" element={<SearchPage isDarkMode={isDarkMode}/>} />
         <Route path="/reviews/:id" element={<MovieReviewPage isDarkMode={isDarkMode}/>} />
         <Route path="/reviews/series/:id" element={<ShowReviewPage isDarkMode={isDarkMode}/>} />
         <Route path="/movies/favourites" element={<FavouriteMoviesPage isDarkMode={isDarkMode}/>} />

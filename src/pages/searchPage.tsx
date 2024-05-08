@@ -16,7 +16,7 @@ import { darkTheme, lightTheme } from "../util";
 
 
 
-const HomePage: React.FC<ThemeHeaderProps> = ({isDarkMode}) => {
+const SearchPage: React.FC<ThemeHeaderProps> = ({isDarkMode}) => {
   const {searchValue} = useParams();
   const { data, error, isLoading, isError } = useQuery<SearchResp, Error>(["multiSearch", searchValue], () => getSeacrh(`${searchValue}`));
  
@@ -92,4 +92,4 @@ const HomePage: React.FC<ThemeHeaderProps> = ({isDarkMode}) => {
     </>
   );
 };
-export default HomePage;
+export default SearchPage;
