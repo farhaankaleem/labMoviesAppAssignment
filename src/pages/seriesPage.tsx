@@ -1,15 +1,76 @@
 import React, { useState } from "react";
 import PageTemplate from "../components/templateSeriesListPage";
 import { getTVShows } from "../api/tmdb-api";
+import useFiltering from "../hooks/useFiltering";
+import ShowFilterUI, {
+  nameFilter,
+  genreFilter,
+} from "../components/showFilterUI";
 import { DiscoverTVShows, TVShow } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToFavouritesIcon from '../components/cardIcons/addToFavouritesSeries'
+import useSorting from "../hooks/useSorting";
 
+const nameFiltering = {
+  name: "name",
+  value: "",
+  condition: nameFilter,
+};
+const genreFiltering = {
+  name: "genre",
+  value: "0",
+  condition: genreFilter,
+};
 
 const SeriesPage: React.FC = () => {
   const [page, setPage] = useState(1);
   const { data, error, isLoading, isError } = useQuery<DiscoverTVShows, Error>(["discoverTVShow", page], () => getTVShows(page));
+  const { filterValues, setFilterValues, filterFunction } = useFiltering(
+    [],
+    [nameFiltering, genreFiltering]
+  );
+  const { sortOption, handleSortChange, sortFunction } = useSorting(
+    { name: "Popularity Descending", value: "popularity.desc" },
+    {
+      "popularity.desc": (a: any, b: any) => {
+        console.log("Popularity Desc")
+        return b.popularity - a.popularity
+      },
+      "popularity.asc": (a: any, b: any) => {
+        console.log("Popularity Asc")
+        return a.popularity - b.popularity
+      },
+      "rating.desc": (a: any, b: any) => {
+        console.log("Rating Desc")
+        return b.vote_average - a.vote_average
+      },
+      "rating.asc": (a: any, b: any) => {
+        console.log("Rating Asc")
+        return a.vote_average - b.vote_average
+      },
+      "release.desc": (a: any, b: any) => {
+        console.log("Release Desc")
+        const dateA = new Date(a.first_air_date).getTime();
+        const dateB = new Date(b.first_air_date).getTime();
+        return dateB - dateA;
+      },
+      "release.asc": (a: any, b: any) => {
+        console.log("Release Asc")
+        const dateA = new Date(a.first_air_date).getTime();
+        const dateB = new Date(b.first_air_date).getTime();
+        return dateA - dateB;
+      },
+      "name.asc": (a: any, b: any) => {
+        console.log("Title Asc")
+        return a.name.localeCompare(b.name)
+      },
+      "name.desc": (a: any, b: any) => {
+        console.log("Title Dsc")
+        return b.name.localeCompare(a.name)
+      }
+    }
+  );
 
   if (isLoading) {
     return <Spinner />;
@@ -27,13 +88,24 @@ const SeriesPage: React.FC = () => {
     setPage(Math.max(page - 1, 1));
   };
 
+  const changeFilterValues = (type: string, value: string) => {
+    const changedFilter = { name: type, value: value };
+    const updatedFilterSet =
+      type === "name"
+        ? [changedFilter, filterValues[1]]
+        : [filterValues[0], changedFilter];
+    setFilterValues(updatedFilterSet);
+  };
+
   const shows = data ? data.results : [];
+  const displayedShows = filterFunction(shows);
+  const sortedShows = [...displayedShows].sort(sortFunction);
 
   return (
     <>
       <PageTemplate
         title="Discover TV Shows"
-        shows={shows}
+        shows={sortedShows}
         action={(movie: TVShow) => {
           return <AddToFavouritesIcon {...movie} />
         }}
@@ -41,6 +113,14 @@ const SeriesPage: React.FC = () => {
         totalPages={data?.total_pages || 0} 
         onPrevPage={handlePrevPage} 
         onNextPage={handleNextPage}
+      />
+
+      <ShowFilterUI
+        onFilterValuesChange={changeFilterValues}
+        nameFilter={filterValues[0].value}
+        genreFilter={filterValues[1].value}
+        onSortChange={handleSortChange}
+        sortOption={sortOption}
       />
     </>
   );

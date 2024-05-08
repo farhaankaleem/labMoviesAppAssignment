@@ -1,7 +1,6 @@
 import React, { ChangeEvent } from "react";
-import { FilterOption, GenreData, SortOption } from "../../types/interfaces"
+import { FilterOptionActor, GenderData, SortOption } from "../../types/interfaces"
 import { SelectChangeEvent } from "@mui/material";
-import { getGenres } from "../../api/tmdb-api";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -10,8 +9,6 @@ import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SortIcon from '@mui/icons-material/Sort';
-import { useQuery } from "react-query";
-import Spinner from '../spinner'
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
@@ -28,45 +25,37 @@ const styles = {
   },
 };
 
-interface FilterMoviesCardProps {
-  onUserInput: (f: FilterOption, s: string)  => void;
+interface FilterActorsCardProps {
+  onUserInput: (f: FilterOptionActor, s: string)  => void;
   onSortChange: (sortOption: SortOption) => void;
-  titleFilter: string;
-  genreFilter: string;
+  nameFilter: string;
+  genderFilter: string;
   sortOption: SortOption;
 }
 
-  const FilterMoviesCard: React.FC<FilterMoviesCardProps> = (props) => {
+  const FilterMoviesCard: React.FC<FilterActorsCardProps> = (props) => {
 
-    const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres", getGenres);
-
-    if (isLoading) {
-      return <Spinner />;
-    }
-    if (isError) {
-      return <h1>{(error as Error).message}</h1>;
-    }
-    const genres = data?.genres || [];
-    if (genres[0].name !== "All") {
-      genres.unshift({ id: "0", name: "All" });
+    const genders: GenderData = {
+        1: "female", 2: "male"
     }
 
-    const handleChange = (e: SelectChangeEvent, type: FilterOption, value: string) => {
+    const handleChange = (e: SelectChangeEvent, type: FilterOptionActor, value: string) => {
       e.preventDefault()
       props.onUserInput(type, value)
     };
 
-    const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
-      handleChange(e, "title", e.target.value)
+    const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+      handleChange(e, "name", e.target.value)
     }
   
-    const handleGenreChange = (e: SelectChangeEvent) => {
-      handleChange(e, "genre", e.target.value)
+    const handleGenderChange = (e: SelectChangeEvent) => {
+      handleChange(e, "gender", e.target.value)
     };
 
     const handleSortChange = (e: SelectChangeEvent) => {
       props.onSortChange(e.target);
     };
+
 
   return (
     <>
@@ -74,32 +63,30 @@ interface FilterMoviesCardProps {
       <CardContent>
         <Typography variant="h5" component="h1">
           <FilterAltIcon fontSize="large" />
-          Filter the movies.
+          Filter the actors.
         </Typography>
         <TextField
           sx={styles.formControl}
           id="filled-search"
           label="Search field"
           type="search"
-          value={props.titleFilter}
+          value={props.nameFilter}
           variant="filled"
-          onChange={handleTextChange}
+          onChange={handleNameChange}
         />
         <FormControl sx={styles.formControl}>
-          <InputLabel id="genre-label">Genre</InputLabel>
+          <InputLabel id="genre-label">Gender</InputLabel>
           <Select
-            labelId="genre-label"
-            id="genre-select"
-            value={props.genreFilter}
-            onChange={handleGenreChange}
+            labelId="gender-label"
+            id="gender-select"
+            value={props.genderFilter}
+            onChange={handleGenderChange}
           >
-            {genres.map((genre) => {
-              return (
-                <MenuItem key={genre.id} value={genre.id}>
-                  {genre.name}
+            {Object.entries(genders).map(([id, value]) => (
+                <MenuItem key={id} value={id}>
+                {value}
                 </MenuItem>
-              );
-            })}
+            ))}
           </Select>
         </FormControl>
       </CardContent>
@@ -108,7 +95,7 @@ interface FilterMoviesCardProps {
         <CardContent>
           <Typography variant="h5" component="h1">
             <SortIcon fontSize="large" />
-            Sort the movies.
+            Sort the actors.
           </Typography>
           <FormControl sx={styles.formControl}>
             <InputLabel id="sort-label">Sort By</InputLabel>
@@ -120,10 +107,6 @@ interface FilterMoviesCardProps {
             >
               <MenuItem value="popularity.desc">Popularity Descending</MenuItem>
               <MenuItem value="popularity.asc">Popularity Ascending</MenuItem>
-              <MenuItem value="rating.desc">Rating Descending</MenuItem>
-              <MenuItem value="rating.asc">Rating Ascending</MenuItem>
-              <MenuItem value="release.desc">Release Date Descending</MenuItem>
-              <MenuItem value="release.asc">Release Date Ascending</MenuItem>
               <MenuItem value="name.asc">Name A-Z</MenuItem>
               <MenuItem value="name.desc">Name Z-A</MenuItem>
               

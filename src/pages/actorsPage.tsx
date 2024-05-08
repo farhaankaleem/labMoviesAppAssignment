@@ -2,34 +2,56 @@ import React, { useState } from "react";
 import PageTemplate from "../components/templateActorListPage";
 import { getActors } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
-import MovieFilterUI, {
-  titleFilter,
-  genreFilter,
-} from "../components/movieFilterUI";
+import ActorFilterUI, {
+  nameFilter,
+  genderFilter,
+} from "../components/actorFilterUI";
 import { Person, PersonList } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToFavouritesIcon from '../components/cardIcons/addToFavouritesActors'
+import useSorting from "../hooks/useSorting";
 
 
-const titleFiltering = {
-  name: "title",
+const nameFiltering = {
+  name: "name",
   value: "",
-  condition: titleFilter,
+  condition: nameFilter,
 };
-const genreFiltering = {
-  name: "genre",
-  value: "0",
-  condition: genreFilter,
+const genderFiltering = {
+  name: "gender",
+  value: "1",
+  condition: genderFilter,
 };
 
 const ActorsPage: React.FC = () => {
   const [page, setPage] = useState(1);
   const { data, error, isLoading, isError } = useQuery<PersonList, Error>(["actors", page], () => getActors(page));
-//   const { filterValues, setFilterValues, filterFunction } = useFiltering(
-//     [],
-//     [titleFiltering, genreFiltering]
-//   );
+  const { filterValues, setFilterValues, filterFunction } = useFiltering(
+    [],
+    [nameFiltering, genderFiltering]
+  );
+  const { sortOption, handleSortChange, sortFunction } = useSorting(
+    { name: "Popularity Descending", value: "popularity.desc" },
+    {
+      "popularity.desc": (a: any, b: any) => {
+        console.log("Popularity Desc")
+        return b.popularity - a.popularity
+      },
+      "popularity.asc": (a: any, b: any) => {
+        console.log("Popularity Asc")
+        return a.popularity - b.popularity
+      },
+      "name.asc": (a: any, b: any) => {
+        console.log("Title Asc")
+        return a.name.localeCompare(b.name)
+      },
+      "name.desc": (a: any, b: any) => {
+        console.log("Title Dsc")
+        return b.name.localeCompare(a.name)
+      }
+    }
+  );
 
   if (isLoading) {
     return <Spinner />;
@@ -48,23 +70,24 @@ const ActorsPage: React.FC = () => {
   };
 
 
-//   const changeFilterValues = (type: string, value: string) => {
-//     const changedFilter = { name: type, value: value };
-//     const updatedFilterSet =
-//       type === "title"
-//         ? [changedFilter, filterValues[1]]
-//         : [filterValues[0], changedFilter];
-//     setFilterValues(updatedFilterSet);
-//   };
+  const changeFilterValues = (type: string, value: string) => {
+    const changedFilter = { name: type, value: value };
+    const updatedFilterSet =
+      type === "name"
+        ? [changedFilter, filterValues[1]]
+        : [filterValues[0], changedFilter];
+    setFilterValues(updatedFilterSet);
+  };
 
   const actors = data ? data.results : [];
-  //const displayedMovies = filterFunction(actors);
+  const displayedMovies = filterFunction(actors);
+  const sortedMovies = [...displayedMovies].sort(sortFunction);
 
   return (
     <>
       <PageTemplate
         title="Actors"
-        actors={actors}
+        actors={sortedMovies}
         action={(actor: Person ) => {
             return <AddToFavouritesIcon {...actor} />
           }}
@@ -73,11 +96,13 @@ const ActorsPage: React.FC = () => {
         onPrevPage={handlePrevPage} 
         onNextPage={handleNextPage}
       />
-      {/* <MovieFilterUI
+      <ActorFilterUI
         onFilterValuesChange={changeFilterValues}
-        titleFilter={filterValues[0].value}
-        genreFilter={filterValues[1].value}
-      /> */}
+        nameFilter={filterValues[0].value}
+        genderFilter={filterValues[1].value}
+        onSortChange={handleSortChange}
+        sortOption={sortOption}
+      />
     </>
   );
 };

@@ -113,6 +113,7 @@ const HomePage: React.FC = () => {
         totalPages={data?.total_pages || 0} 
         onPrevPage={handlePrevPage} 
         onNextPage={handleNextPage}      />
+        
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}
         titleFilter={filterValues[0].value}

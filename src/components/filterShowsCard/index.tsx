@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from "react";
-import { FilterOption, GenreData, SortOption } from "../../types/interfaces"
+import { FilterOptionShow, GenreData, SortOption } from "../../types/interfaces"
 import { SelectChangeEvent } from "@mui/material";
-import { getGenres } from "../../api/tmdb-api";
+import { getGenresShows } from "../../api/tmdb-api";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -28,17 +28,17 @@ const styles = {
   },
 };
 
-interface FilterMoviesCardProps {
-  onUserInput: (f: FilterOption, s: string)  => void;
+interface FilterShowsCardProps {
+  onUserInput: (f: FilterOptionShow, s: string)  => void;
   onSortChange: (sortOption: SortOption) => void;
-  titleFilter: string;
+  nameFilter: string;
   genreFilter: string;
   sortOption: SortOption;
 }
 
-  const FilterMoviesCard: React.FC<FilterMoviesCardProps> = (props) => {
+  const FilterMoviesCard: React.FC<FilterShowsCardProps> = (props) => {
 
-    const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres", getGenres);
+    const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres", getGenresShows);
 
     if (isLoading) {
       return <Spinner />;
@@ -51,13 +51,13 @@ interface FilterMoviesCardProps {
       genres.unshift({ id: "0", name: "All" });
     }
 
-    const handleChange = (e: SelectChangeEvent, type: FilterOption, value: string) => {
+    const handleChange = (e: SelectChangeEvent, type: FilterOptionShow, value: string) => {
       e.preventDefault()
       props.onUserInput(type, value)
     };
 
     const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
-      handleChange(e, "title", e.target.value)
+      handleChange(e, "name", e.target.value)
     }
   
     const handleGenreChange = (e: SelectChangeEvent) => {
@@ -68,20 +68,21 @@ interface FilterMoviesCardProps {
       props.onSortChange(e.target);
     };
 
+
   return (
     <>
     <Card sx={styles.root} variant="outlined">
       <CardContent>
         <Typography variant="h5" component="h1">
           <FilterAltIcon fontSize="large" />
-          Filter the movies.
+          Filter the shows.
         </Typography>
         <TextField
           sx={styles.formControl}
           id="filled-search"
           label="Search field"
           type="search"
-          value={props.titleFilter}
+          value={props.nameFilter}
           variant="filled"
           onChange={handleTextChange}
         />
@@ -108,7 +109,7 @@ interface FilterMoviesCardProps {
         <CardContent>
           <Typography variant="h5" component="h1">
             <SortIcon fontSize="large" />
-            Sort the movies.
+            Sort the TV Shows.
           </Typography>
           <FormControl sx={styles.formControl}>
             <InputLabel id="sort-label">Sort By</InputLabel>
@@ -122,8 +123,8 @@ interface FilterMoviesCardProps {
               <MenuItem value="popularity.asc">Popularity Ascending</MenuItem>
               <MenuItem value="rating.desc">Rating Descending</MenuItem>
               <MenuItem value="rating.asc">Rating Ascending</MenuItem>
-              <MenuItem value="release.desc">Release Date Descending</MenuItem>
-              <MenuItem value="release.asc">Release Date Ascending</MenuItem>
+              <MenuItem value="release.desc">First Air Date Descending</MenuItem>
+              <MenuItem value="release.asc">First Air Date Ascending</MenuItem>
               <MenuItem value="name.asc">Name A-Z</MenuItem>
               <MenuItem value="name.desc">Name Z-A</MenuItem>
               

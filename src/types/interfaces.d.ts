@@ -141,6 +141,10 @@ export interface TVShowDetails extends TVShow {
 
   export type FilterOption = "title" | "genre";
 
+  export type FilterOptionActor = "name" | "gender";
+
+  export type FilterOptionShow = "name" | "genre";
+
   export interface MovieListPageTemplateProps {
     movies: ListedMovie[];
     title: string;
@@ -182,6 +186,10 @@ export interface TVShowDetails extends TVShow {
       id: string;
       name: string
     }[];
+  }
+
+  export interface GenderData {
+    [id: number]: string;
   }
 
   interface DiscoverMovies {
