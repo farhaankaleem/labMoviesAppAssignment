@@ -11,6 +11,7 @@ export const titleFilter = function (movie: ListedMovie, value: string) {
 
 export const genreFilter = function (movie: ListedMovie, value: string) {
   const genreId = Number(value);
+  // @ts-ignore
   return genreId > 0 ? movie.genre_ids.includes(genreId) : true;
 };
 

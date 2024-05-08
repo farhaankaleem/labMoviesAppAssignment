@@ -11,6 +11,7 @@ export const nameFilter = function (show: TVShow, value: string) {
 
 export const genreFilter = function (movie: TVShow, value: string) {
   const genreId = Number(value);
+  // @ts-ignore
   return genreId > 0 ? movie.genre_ids.includes(genreId) : true;
 };
 

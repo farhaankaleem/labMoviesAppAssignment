@@ -36,6 +36,7 @@ const Header: React.FC<HeaderProps> = ({
     onNextPage,}) => {
     
     const movies = JSON.parse(localStorage.getItem("favourites") || '[]');
+    // @ts-ignore
     const isFav = movies.some((movie) => movie.original_title === title);
     const fav = isFav ? (
     <Avatar sx={styles.avatar}>

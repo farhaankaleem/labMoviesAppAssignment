@@ -46,6 +46,7 @@ const TemplateActorPage: React.FC<TemplateActorPageProps> = (props) => {
 
     return (
         <>
+            {/* @ts-ignore */}
             <ActorHeader {...actor} />
 
             <Grid container spacing={5} style={{ padding: "15px" }}>

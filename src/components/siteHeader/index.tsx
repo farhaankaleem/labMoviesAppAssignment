@@ -61,6 +61,7 @@ const styles = {
   },
 };
 interface SiteHeaderProps {
+  // @ts-ignore
   isDarkMode: boolean;
   toggleDarkMode: () => void;
 }

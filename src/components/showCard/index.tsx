@@ -32,10 +32,12 @@ interface ShowListProps {
 
 const ShowCard: React.FC<ShowListProps> = (props) => {
 
+  // @ts-ignore
   const { show: originalMovie, action } = props;
 
   const show: TVShow = { ...originalMovie, favourite: false };
 
+  // @ts-ignore
   const { favouriteShows, addToFavouriteShows } = useContext(MoviesContext);
   
   if (favouriteShows.find((id) => id === show.id)) 

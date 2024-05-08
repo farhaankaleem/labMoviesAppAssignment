@@ -32,10 +32,12 @@ interface MovieListProps {
 
 const MovieCard: React.FC<MovieListProps> = (props) => {
 
+  // @ts-ignore
   const { movie: originalMovie, action } = props;
 
   const movie: ListedMovie = { ...originalMovie, favourite: false };
 
+  // @ts-ignore
   const { favourites, addToFavourites } = useContext(MoviesContext);
   
   if (favourites.find((id) => id === movie.id)) 

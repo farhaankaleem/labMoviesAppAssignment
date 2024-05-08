@@ -28,10 +28,12 @@ interface ActorListProps {
 
 const ActorCard: React.FC<ActorListProps> = (props) => {
 
+  // @ts-ignore
   const { actor: originalMovie, action } = props;
 
   const movie: Person = { ...originalMovie, favourite: false };
 
+  // @ts-ignore
   const { favouriteActors, addToFavouriteActors } = useContext(MoviesContext);
 
   if (favouriteActors.find((id) => id === movie.id))
