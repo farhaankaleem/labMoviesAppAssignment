@@ -19,58 +19,48 @@ export const Basic: Story = {
     args:{ 
         movie: SampleMovie,
         cast: [
-            {
-              "adult": false,
-              "gender": 2,
-              "id": 22970,
-              "known_for_department": "Acting",
-              "name": "Peter Dinklage",
-              "original_name": "Peter Dinklage",
-              "popularity": 30.6,
-              "profile_path": "/lRsRgnksAhBRXwAB68MFjmTtLrk.jpg",
-              "character": "Tyrion Lannister",
-              "credit_id": "5256c8b219c2956ff6047cd8",
-              "order": 0
-            },
-            {
-              "adult": false,
-              "gender": 1,
-              "id": 17286,
-              "known_for_department": "Acting",
-              "name": "Lena Headey",
-              "original_name": "Lena Headey",
-              "popularity": 24.88,
-              "profile_path": "/xR2IBnBlUdyBe5hecaVdtRuQqUE.jpg",
-              "character": "Cersei Lannister",
-              "credit_id": "5256c8ad19c2956ff60479ce",
-              "order": 3
-            },
-            {
-              "adult": false,
-              "gender": 2,
-              "id": 12795,
-              "known_for_department": "Acting",
-              "name": "Nikolaj Coster-Waldau",
-              "original_name": "Nikolaj Coster-Waldau",
-              "popularity": 18.686,
-              "profile_path": "/rpFOERbHkj7GWxkinUNiQ76sSGk.jpg",
-              "character": "Jaime Lannister",
-              "credit_id": "5256c8ad19c2956ff604793e",
-              "order": 5
-            },
-            {
-              "adult": false,
-              "gender": 1,
-              "id": 1223786,
-              "known_for_department": "Acting",
-              "name": "Emilia Clarke",
-              "original_name": "Emilia Clarke",
-              "popularity": 42.737,
-              "profile_path": "/u59kTmNHXzaGZqokivxLPiBVIML.jpg",
-              "character": "Daenerys Targaryen",
-              "credit_id": "5256c8af19c2956ff60479f6",
-              "order": 6
-            }
+          {
+            "adult": false,
+            "gender": 2,
+            "id": 819,
+            "known_for_department": "Acting",
+            "name": "Edward Norton",
+            "original_name": "Edward Norton",
+            "popularity": 26.99,
+            "profile_path": "/8nytsqL59SFJTVYVrN72k6qkGgJ.jpg",
+            "cast_id": 4,
+            "character": "The Narrator",
+            "credit_id": "52fe4250c3a36847f80149f3",
+            "order": 0
+          },
+          {
+            "adult": false,
+            "gender": 2,
+            "id": 287,
+            "known_for_department": "Acting",
+            "name": "Brad Pitt",
+            "original_name": "Brad Pitt",
+            "popularity": 45.202,
+            "profile_path": "/huV2cdcolEUwJy37QvH914vup7d.jpg",
+            "cast_id": 5,
+            "character": "Tyler Durden",
+            "credit_id": "52fe4250c3a36847f80149f7",
+            "order": 1
+          },
+          {
+            "adult": false,
+            "gender": 1,
+            "id": 1283,
+            "known_for_department": "Acting",
+            "name": "Helena Bonham Carter",
+            "original_name": "Helena Bonham Carter",
+            "popularity": 22.112,
+            "profile_path": "/DDeITcCpnBd0CkAIRPhggy9bt5.jpg",
+            "cast_id": 285,
+            "character": "Marla Singer",
+            "credit_id": "631f0de8bd32090082733691",
+            "order": 2
+          }
           ]
       }
 };
