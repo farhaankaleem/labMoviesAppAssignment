@@ -293,7 +293,7 @@ interface CastMember {
   original_name: string;
   popularity: number;
   profile_path: string | null;
-  cast_id: number;
+  cast_id?: number;
   character: string;
   credit_id: string;
   order: number;

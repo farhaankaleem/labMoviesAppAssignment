@@ -17,7 +17,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 export const Basic: Story = {
     args: {
-        ...SampleMovie
+        title: SampleMovie.title,
+        currentPage: 0,
+        totalPages: 1,
+        onPrevPage: () => {},
+        onNextPage: () => {}
     }
 };
 Basic.storyName = "Default";

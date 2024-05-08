@@ -115,7 +115,7 @@ interface FilterMoviesCardProps {
             <Select
               labelId="sort-label"
               id="sort-select"
-              value={props.sortOption.value}
+              value={props.sortOption?.value}
               onChange={handleSortChange}
             >
               <MenuItem value="popularity.desc">Popularity Descending</MenuItem>
