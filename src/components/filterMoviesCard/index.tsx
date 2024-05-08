@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from "react";
-import { FilterOption, GenreData } from "../../types/interfaces"
+import { FilterOption, GenreData, SortOption } from "../../types/interfaces"
 import { SelectChangeEvent } from "@mui/material";
 import { getGenres } from "../../api/tmdb-api";
 import Card from "@mui/material/Card";
@@ -30,8 +30,10 @@ const styles = {
 
 interface FilterMoviesCardProps {
   onUserInput: (f: FilterOption, s: string)  => void;
+  onSortChange: (sortOption: SortOption) => void;
   titleFilter: string;
   genreFilter: string;
+  sortOption: SortOption;
 }
 
   const FilterMoviesCard: React.FC<FilterMoviesCardProps> = (props) => {
@@ -60,6 +62,10 @@ interface FilterMoviesCardProps {
   
     const handleGenreChange = (e: SelectChangeEvent) => {
       handleChange(e, "genre", e.target.value)
+    };
+
+    const handleSortChange = (e: SelectChangeEvent) => {
+      props.onSortChange(e.target);
     };
 
 
@@ -134,6 +140,25 @@ interface FilterMoviesCardProps {
             <SortIcon fontSize="large" />
             Sort the movies.
           </Typography>
+          <FormControl sx={styles.formControl}>
+            <InputLabel id="sort-label">Sort By</InputLabel>
+            <Select
+              labelId="sort-label"
+              id="sort-select"
+              value={props.sortOption.value}
+              onChange={handleSortChange}
+            >
+              <MenuItem value="popularity.desc">Popularity Descending</MenuItem>
+              <MenuItem value="popularity.asc">Popularity Ascending</MenuItem>
+              <MenuItem value="rating.desc">Rating Descending</MenuItem>
+              <MenuItem value="rating.asc">Rating Ascending</MenuItem>
+              <MenuItem value="release.desc">Release Date Descending</MenuItem>
+              <MenuItem value="release.asc">Release Date Ascending</MenuItem>
+              <MenuItem value="name.asc">Name A-Z</MenuItem>
+              <MenuItem value="name.desc">Name Z-A</MenuItem>
+              
+            </Select>
+          </FormControl>
         </CardContent>
       </Card>
       </>

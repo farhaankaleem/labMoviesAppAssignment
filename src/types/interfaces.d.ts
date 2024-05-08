@@ -289,5 +289,10 @@ interface CastMember {
   character: string;
   credit_id: string;
   order: number;
+} 
+
+export interface SortOption {
+  name: string;
+  value: string;
 }
 

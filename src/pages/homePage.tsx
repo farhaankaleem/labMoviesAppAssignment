@@ -10,6 +10,7 @@ import { DiscoverMovies, ListedMovie } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
+import useSorting from "../hooks/useSorting";
 
 const titleFiltering = {
   name: "title",
@@ -28,6 +29,47 @@ const HomePage: React.FC = () => {
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [],
     [titleFiltering, genreFiltering]
+  );
+  const { sortOption, handleSortChange, sortFunction } = useSorting(
+    { name: "Popularity Descending", value: "popularity.desc" },
+    {
+      "popularity.desc": (a: any, b: any) => {
+        console.log("Popularity Desc")
+        return b.popularity - a.popularity
+      },
+      "popularity.asc": (a: any, b: any) => {
+        console.log("Popularity Asc")
+        return a.popularity - b.popularity
+      },
+      "rating.desc": (a: any, b: any) => {
+        console.log("Rating Desc")
+        return b.vote_average - a.vote_average
+      },
+      "rating.asc": (a: any, b: any) => {
+        console.log("Rating Asc")
+        return a.vote_average - b.vote_average
+      },
+      "release.desc": (a: any, b: any) => {
+        console.log("Release Desc")
+        const dateA = new Date(a.release_date).getTime();
+        const dateB = new Date(b.release_date).getTime();
+        return dateB - dateA;
+      },
+      "release.asc": (a: any, b: any) => {
+        console.log("Release Asc")
+        const dateA = new Date(a.release_date).getTime();
+        const dateB = new Date(b.release_date).getTime();
+        return dateA - dateB;
+      },
+      "name.asc": (a: any, b: any) => {
+        console.log("Title Asc")
+        return a.title.localeCompare(b.title)
+      },
+      "name.desc": (a: any, b: any) => {
+        console.log("Title Dsc")
+        return b.title.localeCompare(a.title)
+      }
+    }
   );
 
   const handleNextPage = () => {
@@ -57,12 +99,13 @@ const HomePage: React.FC = () => {
 
   const movies = data ? data.results : [];
   const displayedMovies = filterFunction(movies);
+  const sortedMovies = [...displayedMovies].sort(sortFunction);
 
   return (
     <>
       <PageTemplate
         title="Discover Movies"
-        movies={displayedMovies}
+        movies={sortedMovies}
         action={(movie: ListedMovie) => {
           return <AddToFavouritesIcon {...movie} />;
         } } 
@@ -74,6 +117,8 @@ const HomePage: React.FC = () => {
         onFilterValuesChange={changeFilterValues}
         titleFilter={filterValues[0].value}
         genreFilter={filterValues[1].value}
+        onSortChange={handleSortChange}
+        sortOption={sortOption}
       />
     </>
   );
