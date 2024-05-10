@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import { getMovies } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
@@ -26,6 +26,12 @@ const genreFiltering = {
 };
 
 const HomePage: React.FC<ThemeHeaderProps> = ({isDarkMode}) => {
+  useEffect(() => {
+    getMovies(page).then( (res: any) => {
+      console.log('Response from App Backend', res)
+    });
+  }, []);
+  
   const [page, setPage] = useState(1);
   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(["discover", page], () => getMovies(page));
   const { filterValues, setFilterValues, filterFunction } = useFiltering(

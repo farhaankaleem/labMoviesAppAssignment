@@ -175,12 +175,6 @@ export interface TVShowDetails extends TVShow {
     action: (a: Person) => React.ReactNode
   }
 
-  export interface Review{
-    id: string;
-    content: string
-    author: string
-  }
-
   export interface GenreData {
     genres: {
       id: string;
@@ -285,11 +279,14 @@ export interface PersonList {
 }
 
   export interface Review {
-    author: string,
+    author?: string,
+    id?: string;
     content: string,
-    agree: boolean,
+    agree?: boolean,
     rating: number,
     movieId: number,
+    reviewerName?: string,
+    reviewDate?: string
   }
 
   export interface PersonDetails {

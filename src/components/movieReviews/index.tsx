@@ -11,6 +11,7 @@ import { getMovieReviews } from "../../api/tmdb-api";
 import { excerpt } from "../../util";
 
 import { MovieT, Review } from "../../types/interfaces"; // Import the MovieT type from the appropriate location
+import { getDynamoMovieReviews } from "../../api/dynamodb-api";
 
 const styles = {
     table: {
@@ -19,15 +20,25 @@ const styles = {
 };
 
 const MovieReviews: React.FC<MovieT> = (props) => { // Use the MovieT type in the function signature
-    const [reviews, setReviews] = useState([]);
+    const [reviews, setReviews] = useState<Review[]>([]);
 
     const movie = props;
+    
     useEffect(() => {
-        getMovieReviews(movie.id).then((reviews) => {
-            setReviews(reviews);
-        });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        const fetchReviews = async () => {
+            try {
+                const reviews1 = await getMovieReviews(movie.id);
+                setReviews(reviews1);
+
+                const reviews2 = await getDynamoMovieReviews(movie.id);
+                const rev2 = reviews2.data
+                setReviews((prevReviews) => [...prevReviews, ...rev2]); // Append reviews from the second source
+            } catch (error) {
+                console.error('Error fetching movie reviews:', error);
+            }
+        };
+        fetchReviews();
+    }, [movie.id]); 
 
     return (
         <TableContainer component={Paper}>
@@ -43,7 +54,7 @@ const MovieReviews: React.FC<MovieT> = (props) => { // Use the MovieT type in th
                     {reviews.map((r: Review) => (
                         <TableRow key={r.id}>
                             <TableCell component="th" scope="row">
-                                {r.author}
+                                {r.author ? r.author : r.reviewerName}
                             </TableCell>
                             <TableCell >{excerpt(r.content)}</TableCell>
                             <TableCell >
