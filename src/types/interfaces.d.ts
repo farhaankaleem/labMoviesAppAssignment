@@ -278,6 +278,15 @@ export interface PersonList {
     results: Person[];
 }
 
+export interface signin {
+  userName: string;
+  password: string;
+}
+
+export interface signupInterface extends signin {
+  email: string;
+}
+
   export interface Review {
     author?: string,
     id?: string;

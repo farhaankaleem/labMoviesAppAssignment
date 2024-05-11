@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ListedMovie, MovieT, Person, Review, TVShow } from "../types/interfaces";
+import { setDynamoMovieReviews } from "../api/dynamodb-api";
 
 interface MovieContextInterface {
     favourites: number[];
@@ -72,8 +73,16 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = (props) => {
         setmustWatchs(updatedMustwatchs);
     };
 
-    const addReview = (movie: MovieT, review: Review) => {   // NEW
-        setMyReviews( {...myReviews, [movie.id]: review } )
+    const addReview = async (movie: MovieT, review: Review) => {   
+        console.log('review = ', review)
+        const reviewDate = new Date().toISOString().split('T')[0];
+        const payload = { ...review, reviewDate }
+        try {
+            await setDynamoMovieReviews(payload);
+            setMyReviews({...myReviews, [movie.id]: review});
+        } catch (error) {
+            throw error
+        }
       };
 
     // We will use this function in a later section

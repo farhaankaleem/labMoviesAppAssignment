@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import { TVShowDetails, CastMember } from "../../types/interfaces";
 import Stack from "@mui/material/Stack";
 import { Avatar, Box, CardActionArea, CardHeader, Tooltip } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Fab from "@mui/material/Fab";
 import ReviewsIcon from '@mui/icons-material/RateReview';
 import Drawer from "@mui/material/Drawer";
@@ -43,6 +43,11 @@ const ShowDetails: React.FC<ShowDetailsProps> = (props) => {
   const show=props.show;
   const cast=props.cast;
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const navigate = useNavigate()
+  const handleClick = (memberId: number) => {
+        navigate(`/actors/${memberId}`)
+    }
+
 
     return (
         <>
@@ -82,7 +87,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = (props) => {
                             key={member.id}
                             title={`${member.name} as ${member.character}`}
                            >
-                            <Box onClick={() => window.location.href = `/actors/${member.id}`}>
+                            <Box onClick={() => handleClick(member.id)}>
                                 <CardActionArea>
                                     <CardHeader
                                     avatar={

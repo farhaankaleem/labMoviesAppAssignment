@@ -17,6 +17,9 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import MoviesContextProvider from "./contexts/moviesContext";
 import AddMovieReviewPage from './pages/addMovieReviewPage'
 import ActorsPage from "./pages/actorsPage";
+import LoginPage from "./pages/signinPage";
+import SignupPage from "./pages/signupPage";
+import ConfirmPage from './pages/confirmEmailPage';
 import SeriesPage from "./pages/seriesPage"
 import ShowPage from "./pages/showDetailsPage"
 import SearchPage from "./pages/searchPage"
@@ -53,6 +56,9 @@ const App = () => {
         <Route path="/movies/upcoming" element={<UpcomingMoviesPage isDarkMode={isDarkMode}/> } />
         <Route path="/movies/popular" element={<PopularMoviesPage isDarkMode={isDarkMode}/>}/>
         <Route path="/actors" element={<ActorsPage isDarkMode={isDarkMode}/>}/>
+        <Route path="/signin" element={<LoginPage/>} />
+        <Route path="/signup" element={<SignupPage/>} />
+        <Route path="/confirm" element={<ConfirmPage/>} />
         <Route path="/actors/:id" element={<ActorPage isDarkMode={isDarkMode}/>} />
         <Route path="/movies/:id" element={<MoviePage isDarkMode={isDarkMode}/>} />
         <Route path="/shows/:id" element={<ShowPage isDarkMode={isDarkMode}/>} />

@@ -13,33 +13,13 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { MovieT, Review } from "../../types/interfaces";
 
-
-
 const ReviewForm: React.FC<MovieT> = (props) => {
-
-    const [open, setOpen] = useState(false);
-
-  const defaultValues = {
-    defaultValues: {
-      author: "",
-      review: "",
-      agree: false,
-      rating: 3,
-      movieId: 0,
-    }
-  };
-
-  const {
-    control,
-    formState: { errors },
-    handleSubmit,
-    reset,
-  } = useForm<Review>(defaultValues);
-
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const context = useContext(MoviesContext);
   const [rating, setRating] = useState(3);
 
+  const { control, formState: { errors }, handleSubmit, reset } = useForm<Review>();
 
   const handleRatingChange = (event: ChangeEvent<HTMLInputElement>) => {
     setRating(Number(event.target.value));
@@ -50,10 +30,15 @@ const ReviewForm: React.FC<MovieT> = (props) => {
     navigate("/movies/favourites");
   };
 
-  const onSubmit: SubmitHandler<Review> = (review) => {
+  const onSubmit: SubmitHandler<Review> = async (review) => {
     review.movieId = props.id;
     review.rating = rating;
-    context.addReview(props, review);
+    try {
+      await context.addReview(props, review);
+    } catch {
+        navigate(`/signin`);
+    }
+    
     setOpen(true);
   };
 
@@ -66,7 +51,7 @@ const ReviewForm: React.FC<MovieT> = (props) => {
         sx={styles.snack}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         open={open}
-         onClose={handleSnackClose}
+        onClose={handleSnackClose}
       >
         <Alert
           severity="success"
@@ -157,9 +142,10 @@ const ReviewForm: React.FC<MovieT> = (props) => {
 
         <Box >
           <Button
-            type="submit"
             variant="contained"
+            type="submit"
             color="primary"
+            onClick={() => onSubmit}
             sx={styles.submit}
           >
             Submit
